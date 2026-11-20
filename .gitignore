@@ -12,3 +12,10 @@ __pycache__/
 htmlcov/
 data/verimind.db
 data/corpus/wiki-pages.zip
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
