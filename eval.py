@@ -21,6 +21,7 @@ EVAL_CASES = ROOT / "data" / "eval_cases.jsonl"
 RESULTS_DIR = ROOT / "results"
 SEED = 42
 LABELS = ("supported", "refuted", "unverifiable")
+RETRIEVAL_K_VALUES = (1, 3, 5, 10)
 
 
 def read_cases(split: str, limit: int | None) -> list[dict[str, Any]]:
@@ -128,6 +129,18 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     unverifiable_count = sum(record["predicted_label"] == "unverifiable" for record in completed)
     unverifiable_rate = unverifiable_count / len(completed) if completed else None
+    retrieval_recall_at_k = {}
+    for k in RETRIEVAL_K_VALUES:
+        key = str(k)
+        measured = [
+            record["retrieval_hits_at_k"][key]
+            for record in verifiable
+            if key in record.get("retrieval_hits_at_k", {})
+            and record["retrieval_hits_at_k"][key] is not None
+        ]
+        retrieval_recall_at_k[key] = (
+            sum(measured) / len(measured) if measured else None
+        )
     true_unverifiable_rate = (
         sum(record["true_label"] == "unverifiable" for record in records) / len(records)
     )
@@ -166,6 +179,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "retrieval_hit_count": len(retrieval_hits),
         "retrieval_evaluable_count": len(verifiable),
+        "retrieval_recall_at_k": retrieval_recall_at_k,
         "retrieval_cases_without_gold_evidence": len(verifiable_without_gold),
         "judge_accuracy_when_retrieval_hit": accuracy_for(retrieval_hits),
         "judge_accuracy_when_retrieval_missed": accuracy_for(retrieval_misses),
@@ -235,14 +249,21 @@ def evaluate_case(
         "error": None,
     }
     try:
-        report = pipeline.verify_text(case["claim_or_answer"])
+        report = pipeline.verify_text(
+            case["claim_or_answer"],
+            diagnostic_retrieval_k=max(RETRIEVAL_K_VALUES),
+        )
         passages = [
             passage
             for claim in report["claims"]
-            for passage in claim["evidence"]
+            for passage in claim.get("retrieval_candidates", claim["evidence"])
         ]
         record["retrieved_passages"] = passages
-        record["retrieval_hit"] = retrieval_hit(passages, case["gold_evidence"])
+        record["retrieval_hits_at_k"] = {
+            str(k): retrieval_hit(passages[:k], case["gold_evidence"])
+            for k in RETRIEVAL_K_VALUES
+        }
+        record["retrieval_hit"] = record["retrieval_hits_at_k"]["3"]
         if baseline:
             probabilities = pipeline.nli_model.predict_proba([(case["claim_or_answer"], "")])[0]
             scores = {
@@ -334,6 +355,7 @@ def main() -> int:
             "nli_random_state": pipeline.nli_model.random_state,
             "training_data": "verimind.data.build_synthetic_dataset",
             "retrieval_evidence_limit_per_claim": 3,
+            "retrieval_diagnostic_limit": max(RETRIEVAL_K_VALUES),
             "risk_flag_threshold": 60,
         },
         "temperature": None,

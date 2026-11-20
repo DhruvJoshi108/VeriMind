@@ -12,12 +12,14 @@ import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from verimind.fts_retrieval import SQLiteFtsEvidenceRetriever
 from verimind.faiss_retrieval import FaissEvidenceRetriever
 from verimind.knowledge_base import KnowledgeBase
 from verimind.web_search import get_search_backend
 
 logger = logging.getLogger(__name__)
 INDEX_DIR = Path(__file__).resolve().parents[1] / "data" / "index"
+FULL_TEXT_INDEX_PATH = INDEX_DIR / "wiki_fts.sqlite3"
 
 
 @lru_cache(maxsize=1)
@@ -25,6 +27,13 @@ def load_faiss_retriever() -> FaissEvidenceRetriever | None:
     if not (INDEX_DIR / "index_manifest.json").is_file():
         return None
     return FaissEvidenceRetriever.from_index_dir(INDEX_DIR)
+
+
+@lru_cache(maxsize=1)
+def load_full_text_retriever() -> SQLiteFtsEvidenceRetriever | None:
+    if not FULL_TEXT_INDEX_PATH.is_file():
+        return None
+    return SQLiteFtsEvidenceRetriever(FULL_TEXT_INDEX_PATH)
 
 
 class LocalEvidenceRetriever:
@@ -71,6 +80,7 @@ class HybridRetriever:
     def __init__(self, knowledge_base: KnowledgeBase | None = None) -> None:
         self.local = LocalEvidenceRetriever(knowledge_base)
         self.indexed = load_faiss_retriever()
+        self.full_text = load_full_text_retriever()
         self.backend = get_search_backend()
 
     def build_queries(self, claim: str) -> list[str]:
@@ -106,6 +116,8 @@ class HybridRetriever:
             self._add_ranked(merged, self.local.search(query, k=k), "local")
             if self.indexed is not None:
                 self._add_ranked(merged, self.indexed.search(query, k=k), "faiss")
+            if self.full_text is not None:
+                self._add_ranked(merged, self.full_text.search(query, k=k), "fulltext")
             try:
                 web_items = [
                     {

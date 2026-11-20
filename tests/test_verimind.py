@@ -85,6 +85,34 @@ def test_pipeline_report_has_claims_and_evidence():
     assert report["claims"][0]["evidence"]
 
 
+def test_diagnostic_retrieval_does_not_change_scoring_evidence():
+    pipeline = VerificationPipeline.__new__(VerificationPipeline)
+    candidates = [{"text": f"evidence {index}", "score": 0.9} for index in range(10)]
+    pipeline.retriever = Mock()
+    pipeline.retriever.search.return_value = candidates
+    pipeline._classify_claim = Mock(
+        return_value={"entailment": 0.8, "contradiction": 0.1, "neutral": 0.1}
+    )
+    pipeline.judge = Mock(enabled=False)
+    pipeline.risk_scorer = Mock()
+    pipeline.risk_scorer.score_claim.return_value = {
+        "risk_score": 10,
+        "verdict": "supported",
+        "why": "supported",
+    }
+
+    report = pipeline.verify_text(
+        "Paris is the capital of France.",
+        diagnostic_retrieval_k=10,
+    )
+
+    claim = report["claims"][0]
+    assert claim["evidence"] == candidates[:3]
+    assert claim["retrieval_candidates"] == candidates
+    pipeline.risk_scorer.score_claim.assert_called_once()
+    assert pipeline.risk_scorer.score_claim.call_args.args[1] == candidates[:3]
+
+
 def test_api_health_and_verification():
     client = TestClient(app)
     health = client.get("/health")

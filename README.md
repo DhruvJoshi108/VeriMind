@@ -10,12 +10,11 @@ The project is intentionally modular and offline-friendly. It segments output in
 
 VERIMIND can use live web evidence and a hosted, evidence-constrained judge. The judge receives a claim and retrieved passages and is instructed to return `supported`, `refuted`, or `insufficient_evidence`; it must not use outside knowledge. If either provider is unavailable, the application falls back safely to local retrieval and the existing local classifier.
 
-1. Create a virtual environment and install dependencies:
+1. Install Python 3.11, then create a virtual environment and install dependencies:
 
-```bash
-python -m venv .venv
-.venv\\Scripts\\activate
-pip install -r requirements.txt
+```powershell
+py -3.11 -m venv venv
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 2. Copy `.env.example` to `.env` and configure secrets:
@@ -29,7 +28,7 @@ Set `SEARCH_API_KEY` (Tavily), `GROQ_API_KEY` (Groq), and a long random `API_KEY
 3. Run the API:
 
 ```bash
-uvicorn api.main:app --reload
+.\venv\Scripts\python.exe -m uvicorn api.main:app --reload
 ```
 
 4. Run the dashboard locally:
@@ -94,6 +93,8 @@ Build/run locally with `docker compose -f deploy/docker-compose.yml up --build`.
 
 The repository includes a Render Blueprint in `render.yaml` for separate API and dashboard web services. Publish the contents of this `Code` directory as the GitHub repository root, then in Render choose **New → Blueprint** and connect that repository. Do not upload or commit `.env`; `.gitignore` excludes it. The Blueprint requests one `API_KEY` secret in a shared environment-variable group used by both services. If Render assigns different `onrender.com` hostnames because the names are already taken, update `VERIMIND_API_URL` on the dashboard and `CORS_ORIGINS` on the API to match the assigned service URLs.
 
+For native Render builds, the root `.python-version` pins Python to the 3.11 line. This is required by the current `pyarrow<19` dependency range, which does not provide the needed wheel for Render's newer Python 3.14 default. If the service already has a `PYTHON_VERSION` environment variable, update it to a fully qualified 3.11 release (for example `3.11.11`) or remove it; that variable takes precedence over `.python-version`. The project metadata also rejects Python 3.14 so an unsupported source build fails early instead of trying to compile PyArrow.
+
 The Render API image intentionally omits the large local embedding stack and index to fit a small demonstration service. It uses the small built-in fact base; live search and the hosted judge are disabled unless configured separately. The current SQLite report store is ephemeral on Render's free service plan, so saved reports can be lost when the service restarts or redeploys. This hosted setup is for demonstration, not production fact-checking or durable data storage.
 
 ## Local demo
@@ -128,11 +129,21 @@ The `--baseline` option measures a **local no-evidence classifier control**, not
 
 The FAISS index is an independent reservoir sample of **5,000 pages** from the full FEVER v1.0 Wikipedia dump; the builder scanned **5,396,106 usable pages** and did not use evaluation claims, labels, or gold evidence to select the sample. It contains **5,870 passages** and uses `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions), normalized embeddings, and FAISS inner product. The evaluator uses this FAISS retriever. The sampled index contains **0/40** annotated gold pages for the supported/refuted test cases, so the fresh run measured **0/40** exact gold-page retrieval hits. Retrieval coverage and verdict quality remain insufficient for production use.
 
-Re-run the held-out pipeline evaluation from the project root:
+To add full-corpus lexical retrieval without replacing the sampled FAISS index, run:
+
+```powershell
+.\venv\Scripts\python.exe scripts\build_wikipedia_index.py --full-text-only
+```
+
+This streams the complete FEVER Wikipedia archive into `data\index\wiki_fts.sqlite3`; it does not load all pages into memory or use evaluation labels. Restart the API after the build so the hybrid retriever loads the new index. The build scans millions of rows and needs enough free disk space for the generated database. Verdicts still use three evidence passages; offline evaluation separately searches up to ten to report **Recall@1/3/5/10**. Run the development split before using the held-out test split for a final comparison.
+
+Run the development evaluation while tuning:
 
 ```bash
-python eval.py --split test
+python eval.py --split dev
 ```
+
+After selecting changes using the development split, run `python eval.py --split test` once for the final held-out measurement.
 
 Run the local no-evidence control with `python eval.py --split test --baseline`; use `--n N` to limit a run or `--split dev` for development data. Each run writes per-case JSONL plus summary metadata under `results/`, and saves the confusion matrix to `results/confusion_matrix.png`. The expanded-index test run is [`eval_20261022T100330Z.jsonl`](results/eval_20261022T100330Z.jsonl). The earlier no-evidence control run is [`eval_20261022T082158Z.jsonl`](results/eval_20261022T082158Z.jsonl).
 

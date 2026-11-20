@@ -6,7 +6,6 @@ import argparse
 import json
 import os
 import random
-import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -15,7 +14,8 @@ from zipfile import ZipFile
 
 import numpy as np
 import requests
-from sentence_transformers import SentenceTransformer
+from verimind.fts_retrieval import build_full_text_index
+from verimind.wiki_pages import PASSAGE_WORDS, page_passages
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
@@ -23,8 +23,6 @@ INDEX_DIR = DATA_DIR / "index"
 ARCHIVE_URL = "https://fever.ai/download/fever/wiki-pages.zip"
 ARCHIVE_PATH = DATA_DIR / "corpus" / "wiki-pages.zip"
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-PASSAGE_WORDS = 200
-TOKEN_PATTERN = re.compile(r"\S+")
 
 
 def download_archive() -> Path:
@@ -49,33 +47,6 @@ def download_archive() -> Path:
         )
     temporary.replace(ARCHIVE_PATH)
     return ARCHIVE_PATH
-
-
-def page_passages(page: dict[str, Any]) -> list[dict[str, Any]]:
-    page_id = str(page.get("id") or page.get("title") or "").strip()
-    title = page_id.replace("_", " ")
-    raw_text = page.get("text") or page.get("lines") or ""
-    text = "\n".join(map(str, raw_text)) if isinstance(raw_text, list) else str(raw_text)
-    text = text.strip()[:40000]
-    if not title or not text:
-        return []
-    words = TOKEN_PATTERN.findall(text)
-    result = []
-    url_title = page_id.replace(" ", "_")
-    for passage_id, start in enumerate(range(0, len(words), PASSAGE_WORDS)):
-        passage = " ".join(words[start : start + PASSAGE_WORDS]).strip()
-        if passage:
-            result.append(
-                {
-                    "doc_id": url_title,
-                    "title": title,
-                    "passage_id": passage_id,
-                    "source": f"https://en.wikipedia.org/wiki/{url_title}",
-                    "domain": "wikipedia.org",
-                    "text": passage,
-                }
-            )
-    return result
 
 
 def is_usable_page(page: dict[str, Any]) -> bool:
@@ -141,6 +112,7 @@ def build_index(
     source_rows_scanned: int,
 ) -> dict[str, Any]:
     import faiss
+    from sentence_transformers import SentenceTransformer
 
     model = SentenceTransformer(MODEL_NAME)
     index = faiss.IndexFlatIP(model.get_sentence_embedding_dimension())
@@ -221,6 +193,11 @@ def build_corpus_index(target_pages: int, seed: int) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--full-text-only",
+        action="store_true",
+        help="Build a full-corpus SQLite FTS5 index without the sampled FAISS index.",
+    )
+    parser.add_argument(
         "--pages",
         type=int,
         default=5000,
@@ -230,6 +207,10 @@ def main() -> int:
     args = parser.parse_args()
     if args.pages < 1:
         parser.error("--pages must be positive")
+    if args.full_text_only:
+        manifest = build_full_text_index(download_archive(), INDEX_DIR / "wiki_fts.sqlite3")
+        print(json.dumps(manifest, indent=2))
+        return 0
     if not os.environ.get("HF_HUB_OFFLINE"):
         print(
             f"Downloading/loading the embedding model {MODEL_NAME!r} if not cached.",

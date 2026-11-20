@@ -62,15 +62,27 @@ class VerificationPipeline:
             "neutral": neutral / total,
         }
 
-    def verify_text(self, text: str) -> dict[str, Any]:
+    def verify_text(
+        self,
+        text: str,
+        *,
+        retrieval_k: int = 3,
+        diagnostic_retrieval_k: int | None = None,
+    ) -> dict[str, Any]:
         """Verify a document and return per-claim and overall report."""
+        if retrieval_k < 1:
+            raise ValueError("retrieval_k must be positive")
+        if diagnostic_retrieval_k is not None and diagnostic_retrieval_k < 1:
+            raise ValueError("diagnostic_retrieval_k must be positive")
+        search_k = max(retrieval_k, diagnostic_retrieval_k or retrieval_k)
         claims = split_claims(text)
         start = time.perf_counter()
         claim_entries: list[dict[str, Any]] = []
         for claim in claims:
             claim_start = time.perf_counter()
             retrieval_start = time.perf_counter()
-            evidence = self.retriever.search(claim, k=3)
+            candidates = self.retriever.search(claim, k=search_k)
+            evidence = candidates[:retrieval_k]
             retrieval_latency_ms = (time.perf_counter() - retrieval_start) * 1000
             nli_probs = self._classify_claim(claim, evidence)
             judge_start = time.perf_counter()
@@ -96,6 +108,11 @@ class VerificationPipeline:
                     "risk_score": scored["risk_score"],
                     "verdict": scored["verdict"],
                     "why": scored["why"],
+                    **(
+                        {"retrieval_candidates": candidates[:diagnostic_retrieval_k]}
+                        if diagnostic_retrieval_k is not None
+                        else {}
+                    ),
                 }
             )
 

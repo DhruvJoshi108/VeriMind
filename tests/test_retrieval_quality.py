@@ -1,7 +1,12 @@
+import json
+from unittest.mock import Mock
+from zipfile import ZipFile
+
 import numpy as np
 
 from eval import retrieval_hit, summarize
 from verimind.faiss_retrieval import FaissEvidenceRetriever, has_lexical_match
+from verimind.fts_retrieval import SQLiteFtsEvidenceRetriever, build_full_text_index
 from verimind.retrieval import LocalEvidenceRetriever
 
 
@@ -177,3 +182,63 @@ def test_retrieval_hit_is_unknown_when_fever_has_no_gold_page():
     assert summary["retrieval_evaluable_count"] == 0
     assert summary["retrieval_cases_without_gold_evidence"] == 1
     assert summary["retrieval_hit_rate_verifiable_claims"] is None
+
+
+def test_full_text_index_retrieves_from_the_complete_archive(tmp_path):
+    archive_path = tmp_path / "wiki-pages.zip"
+    index_path = tmp_path / "wiki_fts.sqlite3"
+    pages = [
+        {
+            "id": "Paris",
+            "text": "Paris is the capital city of France and is located on the Seine River.",
+        },
+        {
+            "id": "Berlin",
+            "text": "Berlin is the capital city of Germany and lies on the Spree River.",
+        },
+    ]
+    with ZipFile(archive_path, "w") as archive:
+        archive.writestr(
+            "wiki-pages/wiki-001.jsonl",
+            "\n".join(json.dumps(page) for page in pages),
+        )
+
+    manifest = build_full_text_index(archive_path, index_path)
+    retriever = SQLiteFtsEvidenceRetriever(index_path)
+
+    results = retriever.search("Paris capital of France", k=2)
+
+    assert manifest["page_count"] == 2
+    assert manifest["passage_count"] == 2
+    assert results[0]["doc_id"] == "Paris"
+    assert results[0]["source"] == "https://en.wikipedia.org/wiki/Paris"
+    assert retriever.search("!!!", k=2) == []
+
+
+def test_hybrid_retriever_includes_full_text_candidates():
+    from verimind.retrieval import HybridRetriever
+
+    retriever = HybridRetriever.__new__(HybridRetriever)
+    retriever.local = Mock()
+    retriever.local.search.return_value = []
+    retriever.indexed = None
+    retriever.full_text = Mock()
+    retriever.full_text.search.return_value = [
+        {
+            "doc_id": "Paris",
+            "title": "Paris",
+            "text": "Paris is the capital of France.",
+            "source": "https://en.wikipedia.org/wiki/Paris",
+            "score": 0.8,
+        }
+    ]
+    retriever.backend = Mock()
+    retriever.backend.search.return_value = []
+
+    results = retriever.search("Paris is the capital of France", k=1)
+
+    assert results[0]["doc_id"] == "Paris"
+    assert any(
+        source["backend"] == "fulltext"
+        for source in results[0]["retrieval_sources"]
+    )

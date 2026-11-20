@@ -2,7 +2,7 @@
 name = "verimind"
 version = "0.2.0"
 description = "Evidence-grounded claim verification service"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 
 [tool.black]
 line-length = 100
