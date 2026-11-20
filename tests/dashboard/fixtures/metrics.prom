@@ -1,0 +1,4 @@
+# TYPE verimind_http_requests_total counter
+verimind_http_requests_total{method="POST",path="/verify",status="200"} 3
+verimind_http_requests_total{method="GET",path="/healthz",status="200"} 7
+verimind_request_latency_percentile_ms{quantile="0.50"} 4.5

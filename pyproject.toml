@@ -1,0 +1,33 @@
+[project]
+name = "verimind"
+version = "0.2.0"
+description = "Evidence-grounded claim verification service"
+requires-python = ">=3.11"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+extend-exclude = [
+    "*.ipynb",
+    ".pytest_cache",
+    ".ruff_cache",
+    "venv",
+    "artifacts",
+]
+
+[tool.ruff.lint]
+select = ["F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "integration: requires optional real model or external service dependencies",
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true

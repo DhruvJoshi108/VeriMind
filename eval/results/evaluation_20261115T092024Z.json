@@ -1,0 +1,2539 @@
+{
+  "records": [
+    {
+      "record_type": "run_metadata",
+      "timestamp_utc": "20261115T092024Z",
+      "split": "test",
+      "seed": 42,
+      "model": "scikit-learn MLPClassifier (synthetic offline training data)",
+      "mode": "offline_verimind_pipeline",
+      "baseline_is_plain_llm": false,
+      "retriever": "local HybridRetriever; optional web search is not enabled by this evaluator",
+      "configuration": {
+        "seed": 42,
+        "nli_random_state": 42,
+        "training_data": "verimind.data.build_synthetic_dataset",
+        "retrieval_evidence_limit_per_claim": 3,
+        "risk_flag_threshold": 60
+      },
+      "temperature": null,
+      "summary": {
+        "n_cases": 60,
+        "n_completed": 60,
+        "n_errors": 0,
+        "error_categories": {},
+        "accuracy": 0.3333333333333333,
+        "accuracy_wilson_95_ci": [
+          0.2272926152352268,
+          0.4594313354788031
+        ],
+        "class_metrics": {
+          "supported": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 20
+          },
+          "refuted": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 20
+          },
+          "unverifiable": {
+            "precision": 0.3333333333333333,
+            "recall": 1.0,
+            "f1": 0.5,
+            "support": 20
+          }
+        },
+        "confusion_matrix_labels": [
+          "supported",
+          "refuted",
+          "unverifiable"
+        ],
+        "confusion_matrix": [
+          [
+            0,
+            0,
+            20
+          ],
+          [
+            0,
+            0,
+            20
+          ],
+          [
+            0,
+            0,
+            20
+          ]
+        ],
+        "unverifiable_rate": 1.0,
+        "unverifiable_rate_flagged": true,
+        "true_unverifiable_rate": 0.3333333333333333,
+        "dangerous_error_rate_refuted_predicted_supported": 0.0,
+        "dangerous_errors": 0,
+        "refuted_cases": 20,
+        "retrieval_hit_rate_verifiable_claims": 0.0,
+        "retrieval_hit_count": 0,
+        "retrieval_evaluable_count": 40,
+        "retrieval_cases_without_gold_evidence": 0,
+        "judge_accuracy_when_retrieval_hit": {
+          "accuracy": null,
+          "n": 0,
+          "errors": 0
+        },
+        "judge_accuracy_when_retrieval_missed": {
+          "accuracy": 0.0,
+          "n": 40,
+          "errors": 0
+        },
+        "mean_latency_seconds": 0.020258120000031948
+      }
+    },
+    {
+      "id": "fever-4345",
+      "claim_or_answer": "A Perfect Circle is a country supergroup.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 4345; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "A_Perfect_Circle"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "text": "France is a country in Europe.",
+          "source": "https://en.wikipedia.org/wiki/France",
+          "domain": "wikipedia.org",
+          "score": 0.6445029922609535,
+          "retrieval_sources": [
+            {
+              "backend": "local",
+              "rank": 1
+            },
+            {
+              "backend": "local",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.03278688524590164,
+          "query_variants": [
+            "A Perfect Circle is a country supergroup.",
+            "Perfect Circle country supergroup",
+            "Perfect Circle"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "A Perfect Circle is a country supergroup.",
+          "verdict": "uncertain",
+          "risk_score": 97.28,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.1308426889259907,
+            "contradiction": 0.44910351722127745,
+            "neutral": 0.4200537938527319
+          }
+        }
+      ],
+      "latency_seconds": 0.010549400000854803,
+      "error": null
+    },
+    {
+      "id": "fever-71049",
+      "claim_or_answer": "Ringo Starr experienced two life-threatening illnesses during a Beatles tour.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 71049; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Ringo Starr experienced two life-threatening illnesses during a Beatles tour.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008715899999515386,
+      "error": null
+    },
+    {
+      "id": "fever-183993",
+      "claim_or_answer": "Sicily is the largest island in the Mediterranean Sea.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 183993; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Sicily"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Sicily is the largest island in the Mediterranean Sea.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.006855900000118709,
+      "error": null
+    },
+    {
+      "id": "fever-169945",
+      "claim_or_answer": "Brooks Wackerman is an American heavy metal musician.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 169945; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Brooks_Wackerman"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Brooks Wackerman is an American heavy metal musician.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007990000000063446,
+      "error": null
+    },
+    {
+      "id": "fever-85750",
+      "claim_or_answer": "The Godfather Part III only stars male actors.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 85750; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "The_Godfather_Part_III",
+        "Diane_Keaton"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Godfather Part III only stars male actors.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008992099999886705,
+      "error": null
+    },
+    {
+      "id": "fever-164812",
+      "claim_or_answer": "Furious 7's principal photography began in 2017.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 164812; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Furious_7"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Filiph_Sandström",
+          "title": "Filiph Sandström",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Filiph_Sandström",
+          "domain": "wikipedia.org",
+          "text": "Filiph Alexander Sandström -LRB- born February 15 , 2000 -RRB- is a Swedish software developer whom mostly worked on open source homebrew projects . He is one of the first software developers to develop a fully featured application for the Nintendo 3DS homebrew scene called DownloadMii . He is also the developer of WiiCraft a quite popular unfinished Wii homebrew project ; However even though he promised to finish the project after several months of hard work he seemed to have failed to deliver . In 2014 he developed an unofficial application for a Swedish event called Uddevalla Solid Sound as he `` became furious that they could call it multiplatform and skip Windows Phone '' .",
+          "score": 0.012837033718824387,
+          "lexical_score": 0.09989771377822938,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Furious 7's principal photography began in 2017.",
+            "Furious principal photography began 2017",
+            "Furious"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Furious 7's principal photography began in 2017.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.3694403522110213,
+            "contradiction": 0.20319129446708398,
+            "neutral": 0.4273683533218947
+          }
+        }
+      ],
+      "latency_seconds": 0.03966790000049514,
+      "error": null
+    },
+    {
+      "id": "fever-204782",
+      "claim_or_answer": "How I Met Your Mother's directors include World War II veteran Rob Greenberg.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 204782; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "How I Met Your Mother's directors include World War II veteran Rob Greenberg.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.013007500000639993,
+      "error": null
+    },
+    {
+      "id": "fever-159641",
+      "claim_or_answer": "Tim Robbins a director from the United States.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 159641; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Tim_Robbins"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Cannondale–Cyclocrossworld.com",
+          "title": "Cannondale–Cyclocrossworld.com",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Cannondale–Cyclocrossworld.com",
+          "domain": "wikipedia.org",
+          "text": "Managing Director Stu Thorne founded and supports the squad , which first arrived on the American cyclocross scene with a strong performance from Johnson in the 2005 season . Over the course of their history , team riders have won two national titles and have collected a number of wins in the United States Gran Prix of Cyclocross and the North American Cyclocross Trophy . Former riders include Jamey Driscoll , Tim Johnson and his wife and former Canadian Cyclocross Champion , Lyne Bessette .",
+          "score": 0.2369506061077118,
+          "lexical_score": 0.10015445080526564,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.06530936012691697,
+          "query_variants": [
+            "Tim Robbins a director from the United States.",
+            "Tim Robbins director from the United States",
+            "Tim Robbins United States"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Tim Robbins a director from the United States.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.21373989922558959,
+            "contradiction": 0.003908171425696652,
+            "neutral": 0.7823519293487139
+          }
+        }
+      ],
+      "latency_seconds": 0.08262000000013359,
+      "error": null
+    },
+    {
+      "id": "fever-60793",
+      "claim_or_answer": "Charles Dickens was not born in 1812.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 60793; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Charles_Dickens"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Fishtown,_Philadelphia",
+          "title": "Fishtown, Philadelphia",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Fishtown,_Philadelphia",
+          "domain": "wikipedia.org",
+          "text": "to have caught the largest shad in the world in the Delaware River . The apocryphal local legend traces the name of Fishtown to Charles Dickens , who purportedly visited the neighborhood in March 1842 , but records show this to be false , as it was named Fishtown prior to his visit .",
+          "score": 0.3111705780029297,
+          "lexical_score": 0.23633711446899008,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Charles Dickens was not born in 1812.",
+            "Charles Dickens was not born 1812",
+            "Charles Dickens"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Charles Dickens was not born in 1812.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.14615395216688376,
+            "contradiction": 0.2380084576283964,
+            "neutral": 0.6158375902047198
+          }
+        }
+      ],
+      "latency_seconds": 0.031334899999819754,
+      "error": null
+    },
+    {
+      "id": "fever-15441",
+      "claim_or_answer": "Jessica Lange has acted in a movie written by Eugene O'Neill.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 15441; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Jessica_Lange",
+        "Eugene_O'Neill"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Jessica Lange has acted in a movie written by Eugene O'Neill.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01014870000017254,
+      "error": null
+    },
+    {
+      "id": "fever-184391",
+      "claim_or_answer": "Ghost in the Shell was demonetized by Exact.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 184391; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Ghost in the Shell was demonetized by Exact.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007969199999934062,
+      "error": null
+    },
+    {
+      "id": "fever-160110",
+      "claim_or_answer": "Jeremy Allen White was named in 1991.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 160110; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Jeremy_Allen_White"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Jeremy Allen White was named in 1991.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009246800000255462,
+      "error": null
+    },
+    {
+      "id": "fever-62395",
+      "claim_or_answer": "Janet Varney refused to voice a character in The Legend of Korra.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 62395; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Janet_Varney"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Janet Varney refused to voice a character in The Legend of Korra.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.0090027000005648,
+      "error": null
+    },
+    {
+      "id": "fever-29348",
+      "claim_or_answer": "Alec Baldwin won two Emmy Awards for his work on 30 Rock.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 29348; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Alec_Baldwin"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Alec Baldwin won two Emmy Awards for his work on 30 Rock.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010704300000725198,
+      "error": null
+    },
+    {
+      "id": "fever-203955",
+      "claim_or_answer": "The Squid and the Whale had Laura Linney in it.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 203955; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Laura_Linney"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Squid and the Whale had Laura Linney in it.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008327200000167068,
+      "error": null
+    },
+    {
+      "id": "fever-204172",
+      "claim_or_answer": "Miyu Irino voices a Spanish lead character.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 204172; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Miyu Irino voices a Spanish lead character.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01198980000026495,
+      "error": null
+    },
+    {
+      "id": "fever-77886",
+      "claim_or_answer": "The Void was originally crowdfunded on a website.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 77886; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "The_Void_-LRB-2016_film-RRB-",
+        "Indiegogo"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "John_Henry_Douglas",
+          "title": "John Henry Douglas",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/John_Henry_Douglas",
+          "domain": "wikipedia.org",
+          "text": "John Henry Douglas -LRB- June 22 , 1851 -- 1930 -RRB- was a farmer and politician in Ontario , Canada . He represented Northumberland East in the Legislative Assembly of Ontario from 1898 to 1902 as a Liberal . The son of Donald Douglas and Elizabeth Waters , he was born in Warkworth , Canada West . In 1880 , he married Clara Jane Boyce . His election in 1898 was declared void but he was reelected in a by-election held in December later that same year .",
+          "score": -0.08851145952939987,
+          "lexical_score": 0.11957576562357512,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "The Void was originally crowdfunded on a website.",
+            "The Void was originally crowdfunded website",
+            "The Void"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Void was originally crowdfunded on a website.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.14266745966408445,
+            "contradiction": 9.559171780853834e-05,
+            "neutral": 0.8572369486181071
+          }
+        }
+      ],
+      "latency_seconds": 0.031795900000361144,
+      "error": null
+    },
+    {
+      "id": "fever-13159",
+      "claim_or_answer": "Neil Armstrong was not awarded the Presidential Medal of Freedom.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 13159; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Neil_Armstrong"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Ella_Fitzgerald",
+          "title": "Ella Fitzgerald",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Ella_Fitzgerald",
+          "domain": "wikipedia.org",
+          "text": "of her more widely noted works , particularly her interpretation of the Great American Songbook . While Fitzgerald appeared in movies and as a guest on popular television shows in the second half of the twentieth century , her musical collaborations with Louis Armstrong , Duke Ellington , and The Ink Spots were some of her most notable acts outside of her solo career . These partnerships produced recognizable songs like `` Dream a Little Dream of Me '' , `` Cheek to Cheek '' , `` Into Each Life Some Rain Must Fall '' , and `` It Do n't Mean a Thing -LRB- If It Ai n't Got That Swing -RRB- '' . In 1993 , Fitzgerald capped off her sixty-year career with her last public performance . Three years later , she died at the age of 79 , following years of decline in her health . After her passing , Fitzgerald 's influence lived on through her fourteen Grammy Awards , National Medal of Arts , Presidential Medal of Freedom , and tributes in the form of stamps , music festivals , and theater namesakes .",
+          "score": 0.26661407947540283,
+          "lexical_score": 0.1746759582818852,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Neil Armstrong was not awarded the Presidential Medal of Freedom.",
+            "Neil Armstrong was not awarded the Presidential Medal",
+            "Neil Armstrong Presidential Medal Freedom"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Neil Armstrong was not awarded the Presidential Medal of Freedom.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.16602260669652755,
+            "contradiction": 0.009642650943823258,
+            "neutral": 0.8243347423596491
+          }
+        }
+      ],
+      "latency_seconds": 0.03816469999947003,
+      "error": null
+    },
+    {
+      "id": "fever-222613",
+      "claim_or_answer": "Austria's neighboring country is Vienna.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 222613; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Austria"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "text": "France is a country in Europe.",
+          "source": "https://en.wikipedia.org/wiki/France",
+          "domain": "wikipedia.org",
+          "score": 0.6445029922609535,
+          "retrieval_sources": [
+            {
+              "backend": "local",
+              "rank": 1
+            },
+            {
+              "backend": "local",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.03278688524590164,
+          "query_variants": [
+            "Austria's neighboring country is Vienna.",
+            "Austria neighboring country Vienna",
+            "Austria's Vienna"
+          ]
+        },
+        {
+          "doc_id": "August_Silberstein",
+          "title": "August Silberstein",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/August_Silberstein",
+          "domain": "wikipedia.org",
+          "text": "August Karl Silberstein -LRB- 1 July 1827 -- 7 March 1900 -RRB- was an Austrian writer , born in Ofen , Budapest -LRB- Hungary -RRB- . Silberstein was educated at the University of Vienna and supported the 1848 revolts in Austria-Hungary with his articles in the German satire periodical Leuchtkugeln , which was banned in the middle of 1851 . As a result , Silbertein was forced to leave his home . Impassioned by the country life , he wrote stories of life in villages idealizing the countryside and published popular collections of tales . He was thus called the `` Austrian Auerbach '' . His poems had influence in his lifetime , in particular upon the Austrian poet Peter Rosegger , to whom he was to some extent a mentor . These poems were sometimes put to music by composers such as Strauss -LRB- Wenn du ein herzig Liebchen hast of 1879 -RRB- or Anton Bruckner -LRB- Germanenzug of 1864 , Vaterlandslied of 1866 , and Helgoland of 1893 -RRB- .",
+          "score": 0.30316677689552307,
+          "lexical_score": 0.07922729457709335,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Austria's neighboring country is Vienna.",
+            "Austria neighboring country Vienna",
+            "Austria's Vienna"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Austria's neighboring country is Vienna.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.16071446701754213,
+            "contradiction": 0.15074869435103663,
+            "neutral": 0.6885368386314213
+          }
+        }
+      ],
+      "latency_seconds": 0.04103149999991729,
+      "error": null
+    },
+    {
+      "id": "fever-175769",
+      "claim_or_answer": "The Muse stars Andie MacDowell.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 175769; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "The_Muse_-LRB-1999_film-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Muse stars Andie MacDowell.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.012735399999655783,
+      "error": null
+    },
+    {
+      "id": "fever-217976",
+      "claim_or_answer": "Michael Jackson is the ninth child of the Jackson family.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 217976; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Michael_Jackson"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Michael_Gregory_-LRB-jazz_guitarist-RRB-",
+          "title": "Michael Gregory -LRB-jazz guitarist-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Michael_Gregory_-LRB-jazz_guitarist-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Michael Gregory Jackson -LRB- born August 28 , 1953 , New Haven , Connecticut -RRB- is an American jazz , blues , and rock guitarist and singer . Early in his career , he was known as Michael Gregory Jackson to avoid being confused with pop singer Michael Jackson . In 2013 , he returned to using his full name . In the late 1970s and early 1980s , Jackson worked with avant-garde jazz musicians such as Pheeroan akLaff , Oliver Lake , and Baikida Carroll . He worked with playwright Ntozake Shange , poet Jessica Hagedorn , and poet Thulani Davis at the Public Theatre , New York City . Following this he began working more in rock , jazz fusion , and R&B . He worked with Walter Becker of Steely Dan . In 1983 Nile Rodgers produced Situation-X for Island Records . In 2013 he formed Michael Gregory Jackson 's Clarity Quartet and Michael Gregory Jackson 's Clarity TRiO . His groups have included Anthony Davis , Baikida Carroll , Bob Moses , David Murray , Jerome Harris , Julius Hemphill , Mark Helias , Mark Trayle , Marty Ehrlich , Oliver Lake , Pheeroan aKLaff ,",
+          "score": 0.5652896165847778,
+          "lexical_score": 0.205449665912589,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Michael Jackson is the ninth child of the Jackson family.",
+            "Michael Jackson the ninth child the Jackson family",
+            "Michael Jackson Jackson"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Michael Jackson is the ninth child of the Jackson family.",
+          "verdict": "uncertain",
+          "risk_score": 91.57,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15586473880981633,
+            "contradiction": 3.8768465006370756e-05,
+            "neutral": 0.8440964927251773
+          }
+        }
+      ],
+      "latency_seconds": 0.038898100000551494,
+      "error": null
+    },
+    {
+      "id": "fever-64779",
+      "claim_or_answer": "George Foreman failed to leave in 2004.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 64779; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "George_Foreman"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "George Foreman failed to leave in 2004.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.00983399999950052,
+      "error": null
+    },
+    {
+      "id": "fever-172569",
+      "claim_or_answer": "Judith Quiney was married on February 2, 1585.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 172569; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Judith_Quiney"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Judith Quiney was married on February 2, 1585.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.011878000000251632,
+      "error": null
+    },
+    {
+      "id": "fever-74441",
+      "claim_or_answer": "Superman is a Buddhist.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 74441; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Superman is a Buddhist.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.005094600000120408,
+      "error": null
+    },
+    {
+      "id": "fever-166256",
+      "claim_or_answer": "Horrible Bosses is based on a story by the film's writer.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 166256; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Horrible_Bosses"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Horrible Bosses is based on a story by the film's writer.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01230050000049232,
+      "error": null
+    },
+    {
+      "id": "fever-95768",
+      "claim_or_answer": "The United States Congress features the United States House of Representatives.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 95768; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "United_States_Congress"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Tom_Coburn",
+          "title": "Tom Coburn",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Tom_Coburn",
+          "domain": "wikipedia.org",
+          "text": "Thomas Allen `` Tom '' Coburn -LRB- born March 14 , 1948 -RRB- is an American politician and medical doctor . A member of the Republican Party , he was the junior United States Senator from Oklahoma . Coburn was elected to the U.S. House of Representatives in 1994 as part of the Republican Revolution . He upheld his campaign pledge to serve no more than three consecutive terms and did not run for re-election in 2000 . In 2004 , he returned to political life with a successful run for the U.S. Senate . Coburn was re-elected to a second term in 2010 and pledged not to seek a third term in 2016 . In January 2014 , Coburn announced he would retire before the expiration of his final term . He submitted a letter of resignation to Oklahoma Governor Mary Fallin , effective at the end of the 113th Congress . Coburn is a fiscal and social conservative , known for his opposition to deficit spending and pork barrel projects and for his opposition to abortion . Described as `` the godfather of the modern conservative , austerity movement '' , he supports term limits , gun rights",
+          "score": 0.1726110875606537,
+          "lexical_score": 0.10199261587168945,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.03252247488101534,
+          "query_variants": [
+            "The United States Congress features the United States House of Representatives.",
+            "The United States Congress features the United States",
+            "The United States Congress United States House Representatives"
+          ]
+        },
+        {
+          "doc_id": "Patty_Wetterling",
+          "title": "Patty Wetterling",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Patty_Wetterling",
+          "domain": "wikipedia.org",
+          "text": "Patty Wetterling -LRB- born November 2 , 1949 -RRB- is a U.S. advocate of children 's safety and current chair of National Center for Missing and Exploited Children . Her advocacy particularly focuses on protecting children from abduction and abuse . In recent years Wetterling has become one of the most vocal critics of current sex offender registry laws pointing them as overly broad and unnecessarily causing tremendous harm to many . Her advocacy began after her son Jacob was abducted in 1989 and culminated in passage of federal Jacob Wetterling Crimes Against Children and Sexually Violent Offender Registration Act . She was a candidate for the Minnesota Sixth District seat in the United States House of Representatives as the Democratic-Farmer-Labor Party candidate in 2004 and 2006 , losing to Republicans Mark Kennedy and Michele Bachmann respectively . In September 2016 , the remains of her son Jacob were discovered and positively identified .",
+          "score": 0.17161825299263,
+          "lexical_score": 0.12437705558644013,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "The United States Congress features the United States House of Representatives.",
+            "The United States Congress features the United States",
+            "The United States Congress United States House Representatives"
+          ]
+        },
+        {
+          "doc_id": "Arthur_Middleton",
+          "title": "Arthur Middleton",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Arthur_Middleton",
+          "domain": "wikipedia.org",
+          "text": "Arthur Middleton -LRB- June 26 , 1742 -- January 1 , 1787 -RRB- , of Charleston , South Carolina , was a signatory of the United States Declaration of Independence . His parents were Henry Middleton and Mary Baker Williams , both of English descent . He was educated in Britain , at Harrow School , Westminster School , and Trinity Hall , Cambridge . He studied law at the Middle Temple and traveled extensively in Europe where his taste in literature , music , and art was developed and refined . In 1764 , Arthur and his bride Mary Izard settled at Middleton Place . Keenly interested in Carolina , Middleton was a more radical thinker than his father , Henry Middleton . He was a leader of the American Party in Carolina and one of the boldest members of the Council of Safety and its Secret Committee . In 1776 , Arthur was elected to succeed his father in the Continental Congress and subsequently was a signer of the United States Declaration of Independence . Also in 1776 , he and William Henry Drayton designed the Great Seal of South Carolina . Despite the time he spent in",
+          "score": 0.12843191623687744,
+          "lexical_score": 0.10203985940428885,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "The United States Congress features the United States House of Representatives.",
+            "The United States Congress features the United States",
+            "The United States Congress United States House Representatives"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The United States Congress features the United States House of Representatives.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15120967639721486,
+            "contradiction": 0.14165712869143782,
+            "neutral": 0.7071331949113474
+          }
+        }
+      ],
+      "latency_seconds": 0.09376379999957862,
+      "error": null
+    },
+    {
+      "id": "fever-87276",
+      "claim_or_answer": "Haitian Creole is a balanced natural linguistic structure.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 87276; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Haitian Creole is a balanced natural linguistic structure.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01528520000010758,
+      "error": null
+    },
+    {
+      "id": "fever-126035",
+      "claim_or_answer": "Kid Rock is an actor.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 126035; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Kid_Rock"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Music_of_Portugal",
+          "title": "Music of Portugal",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Music_of_Portugal",
+          "domain": "wikipedia.org",
+          "text": "-LRB- alternative rock -RRB- , Fingertips -LRB- pop rock -RRB- , Blasted Mechanism -LRB- experimental electro-rock -RRB- and Wraygunn -LRB- rock , blues -RRB- . Also hip-hop , with acts such as Da Weasel , Boss AC and Sam the Kid . Acts such as Moonspell -LRB- metal -RRB- and Buraka Som Sistema -LRB- electro/kuduro/breakbeat -RRB- have had significant international success . Other popular modern genres in Portugal include dance , house , kizomba , pimba , pop , reggae , ska and zouk .",
+          "score": 0.3293849229812622,
+          "lexical_score": 0.145097725249069,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Kid Rock is an actor.",
+            "Kid Rock actor",
+            "Kid Rock"
+          ]
+        },
+        {
+          "doc_id": "Bad_Season_-LRB-mixtape-RRB-",
+          "title": "Bad Season -LRB-mixtape-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Bad_Season_-LRB-mixtape-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Bad Season is the debut mixtape by Tech N9ne released on December 23 , 2010 for free digital download . The Mixtape was presented by XXL Magazine and it was hosted by DJ Whoo Kid & DJ Scream . It contains 14 all-new tracks submitted by DJ Whoo Kid for Tech N9ne to rap over without prior knowledge of who produced any of the beats . Also included are three tracks from previous Tech N9ne releases . Dr. Dre , The Haitian Super Heroes -LRB- DJ Whoo Kid & Red Spyda -RRB- , Travis Barker & Cookin Soul were later revealed as producers for the mixtape . The mixtape features guest appearances from Krizz Kaliko , Kutt Calhoun , Jay Rock , Big Scoob , Oobergeek , Irv Da Phenom , Nesto and others . The track `` Hard Liquor '' was originally by The Game with production by Dr. Dre intended for his Doctors Advocate album , but was left off of the final track listing . After the track was submitted to Whoo Kid , he then submitted it to Travis Barker to remix the track , without Tech N9ne having knowledge of the remix .",
+          "score": 0.24614286422729492,
+          "lexical_score": 0.1371740691859313,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.016129032258064516,
+          "query_variants": [
+            "Kid Rock is an actor.",
+            "Kid Rock actor",
+            "Kid Rock"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Kid Rock is an actor.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.25973723746676974,
+            "contradiction": 0.003991504199752673,
+            "neutral": 0.7362712583334776
+          }
+        }
+      ],
+      "latency_seconds": 0.04207899999983056,
+      "error": null
+    },
+    {
+      "id": "fever-67845",
+      "claim_or_answer": "Alia Bhatt is only an actress.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 67845; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Alia_Bhatt"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Alia Bhatt is only an actress.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007009500000094704,
+      "error": null
+    },
+    {
+      "id": "fever-167366",
+      "claim_or_answer": "Stand-up comedy is a style in which a comic dances.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 167366; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "The_Last_Stand_-LRB-Sabaton_album-RRB-",
+          "title": "The Last Stand -LRB-Sabaton album-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/The_Last_Stand_-LRB-Sabaton_album-RRB-",
+          "domain": "wikipedia.org",
+          "text": "The Last Stand is the eighth studio album by Swedish power metal band Sabaton . It was released on 19 August 2016 . It was produced by Peter Tägtgren in Abyss Studios . Like Sabaton 's previous album Heroes , The Last Stand is a concept album and takes inspiration from famous defensive `` last stand '' battles . On 10 June 2016 the first single The Lost Battalion was released , followed by Blood of Bannockburn on 15 July and Shiroyama on 12 August .",
+          "score": 0.2667619287967682,
+          "lexical_score": 0.20665284942297454,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Stand-up comedy is a style in which a comic dances.",
+            "Stand comedy style which comic dances",
+            "Stand-up"
+          ]
+        },
+        {
+          "doc_id": "SEEM",
+          "title": "SEEM",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/SEEM",
+          "domain": "wikipedia.org",
+          "text": "SEEM as an acronym may stand for : Serially Electrically Erasable Memory Social Enterprise East Midlands",
+          "score": 0.11961439251899719,
+          "lexical_score": 0.1880870634314905,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.016129032258064516,
+          "query_variants": [
+            "Stand-up comedy is a style in which a comic dances.",
+            "Stand comedy style which comic dances",
+            "Stand-up"
+          ]
+        },
+        {
+          "doc_id": "Willie_Jackson_-LRB-basketball-RRB-",
+          "title": "Willie Jackson -LRB-basketball-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Willie_Jackson_-LRB-basketball-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Willie Jackson is an American former college basketball stand-out and current high school head coach .",
+          "score": 0.1368716061115265,
+          "lexical_score": 0.1616574366185078,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 3
+            }
+          ],
+          "rrf_score": 0.015873015873015872,
+          "query_variants": [
+            "Stand-up comedy is a style in which a comic dances.",
+            "Stand comedy style which comic dances",
+            "Stand-up"
+          ]
+        }
+      ],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Stand-up comedy is a style in which a comic dances.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.1453266388113113,
+            "contradiction": 0.00571332514141337,
+            "neutral": 0.8489600360472753
+          }
+        }
+      ],
+      "latency_seconds": 0.026764299999740615,
+      "error": null
+    },
+    {
+      "id": "fever-79710",
+      "claim_or_answer": "Maggie Smith is a singer.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 79710; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Maggie Smith is a singer.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009086300000490155,
+      "error": null
+    },
+    {
+      "id": "fever-85604",
+      "claim_or_answer": "Death in Paradise has obtained ratings that were high.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 85604; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Death_in_Paradise_-LRB-TV_series-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Death in Paradise has obtained ratings that were high.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.011314000000311353,
+      "error": null
+    },
+    {
+      "id": "fever-173993",
+      "claim_or_answer": "Susan Sarandon received nominations for Off-Broadway plays in 1999.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 173993; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Susan Sarandon received nominations for Off-Broadway plays in 1999.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007277800000338175,
+      "error": null
+    },
+    {
+      "id": "fever-64733",
+      "claim_or_answer": "Schindler's List premiered in New York City.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 64733; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Schindler's_List"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "text": "Paris is the capital city of France.",
+          "source": "https://en.wikipedia.org/wiki/Paris",
+          "domain": "wikipedia.org",
+          "score": 0.6142260844216119,
+          "retrieval_sources": [
+            {
+              "backend": "local",
+              "rank": 1
+            },
+            {
+              "backend": "local",
+              "rank": 1
+            },
+            {
+              "backend": "local",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.04918032786885246,
+          "query_variants": [
+            "Schindler's List premiered in New York City.",
+            "Schindler List premiered New York City",
+            "Schindler's List New York City"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Schindler's List premiered in New York City.",
+          "verdict": "uncertain",
+          "risk_score": 79.59,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.27307348016645516,
+            "contradiction": 4.2510229521136413e-07,
+            "neutral": 0.7269260947312497
+          }
+        }
+      ],
+      "latency_seconds": 0.010068399999909161,
+      "error": null
+    },
+    {
+      "id": "fever-134947",
+      "claim_or_answer": "Peyton Manning refused to sign with the Broncos and remained on the Colts.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 134947; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Peyton_Manning"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Peyton Manning refused to sign with the Broncos and remained on the Colts.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008286499999485386,
+      "error": null
+    },
+    {
+      "id": "fever-24658",
+      "claim_or_answer": "Sean Combs released the dog Forever in 1999.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 24658; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Sean Combs released the dog Forever in 1999.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008576399999583373,
+      "error": null
+    },
+    {
+      "id": "fever-128799",
+      "claim_or_answer": "War of the Worlds failed to be written by Josh Friedman.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 128799; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "War_of_the_Worlds_-LRB-2005_film-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "War of the Worlds failed to be written by Josh Friedman.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010899399999289017,
+      "error": null
+    },
+    {
+      "id": "fever-161899",
+      "claim_or_answer": "Britney Spears was born on Monday, December 2nd, 1981.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 161899; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Britney Spears was born on Monday, December 2nd, 1981.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010426900000311434,
+      "error": null
+    },
+    {
+      "id": "fever-139601",
+      "claim_or_answer": "Fred Trump was the nephew of a United States Court of Appeals Judge.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 139601; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Fred Trump was the nephew of a United States Court of Appeals Judge.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009277799999836134,
+      "error": null
+    },
+    {
+      "id": "fever-118014",
+      "claim_or_answer": "Paulo Dybala plays football.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 118014; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Paulo_Dybala",
+        "Argentina_national_football_team"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Paulo Dybala plays football.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007823999999345688,
+      "error": null
+    },
+    {
+      "id": "fever-169798",
+      "claim_or_answer": "In 1991, Outkast was created.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 169798; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Outkast"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Choice_-LRB-rapper-RRB-",
+          "title": "Choice -LRB-rapper-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Choice_-LRB-rapper-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Kim Davis , better known by her stage name of Choice or MC Choice , is an American female hip-hop artist based out of Houston , Texas . She is best known for her album The Big Payback , which first came out in 1990 . Signed to the label Rap-A-Lot Records , her strident , sexually explicit album prefigured the image and sound of later female rappers such as Lil ' Kim , with music journalist Roni Sarig mentioning Choice in Third Coast : Outkast , Timbaland , and How Hip-Hop Became a Southern Thing as one of the U.S. south 's underground kings and queens of rap alongside the Geto Boys and Street Military . She first appeared on Willie D 's 1989 album Controversy -LRB- with him then known as `` Willie Dee '' -RRB- . The release ended up peaking at # 53 on the U.S. R&B Albums chart . Ironically , Choice would soon criticize Willie D in a diss track also aimed at various male MCs of the time -LRB- such as Ice Cube -RRB- . Choice belongs to a more `` sex '' - based lyrical school of hard-core female rappers as opposed",
+          "score": 0.2586708068847656,
+          "lexical_score": 0.07672854885013337,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "In 1991, Outkast was created.",
+            "1991 Outkast was created",
+            "In Outkast"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "In 1991, Outkast was created.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.2115003357771843,
+            "contradiction": 0.12008084621151614,
+            "neutral": 0.6684188180112997
+          }
+        }
+      ],
+      "latency_seconds": 0.030483800000183692,
+      "error": null
+    },
+    {
+      "id": "fever-186126",
+      "claim_or_answer": "There are people in Ontario.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 186126; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Liquor_Control_Board_of_Ontario",
+          "title": "Liquor Control Board of Ontario",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Liquor_Control_Board_of_Ontario",
+          "domain": "wikipedia.org",
+          "text": "The Liquor Control Board of Ontario -LRB- LCBO -RRB- is a Crown corporation that retails and distributes alcoholic beverages throughout the province of Ontario , Canada . It is accountable to the Ontario Ministry of Finance . It was established in 1927 on the advice of Ontario Premier Howard Ferguson , to sell liquor , wine , and beer . Such sales had been banned outright in 1916 ; thus , the creation of the LCBO marked an easing of the province 's temperance regime -LRB- see Prohibition in Canada -RRB- . The LCBO maintains a `` quasi-monopoly '' on alcoholic beverage sales in Ontario -- Canada 's most populous province with over 13 million people , or almost 40 % of the nation 's population -- and as a result is one of the world 's largest purchasers of alcoholic beverages . LCBO stores are the only retail outlets licensed to sell alcohol in Ontario , with a few notable exceptions : beer is also sold by The Beer Store -LRB- which has a monopoly on retailing 12 - and 24-bottle cases of beer -RRB- , and a number of local wine , beer and alcohol producers are licensed",
+          "score": 0.357549786567688,
+          "lexical_score": 0.14539834220333178,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.03278688524590164,
+          "query_variants": [
+            "There are people in Ontario.",
+            "There are people Ontario",
+            "There Ontario"
+          ]
+        },
+        {
+          "doc_id": "Andrew_Scott_-LRB-drummer-RRB-",
+          "title": "Andrew Scott -LRB-drummer-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Andrew_Scott_-LRB-drummer-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Andrew Walter Gibson Scott -LRB- born November 15 , 1967 -RRB- is a Canadian musician born in Ottawa , Ontario and currently living in Toronto . His first bands include No Damn Fears , Oreo Reversed and Blackpool from Halifax , Nova Scotia . Currently , he is a drummer with the Toronto-based band Sloan . He also plays guitar with the band , usually on songs he has written . Three of his songs , `` 500 Up '' , `` People of the Sky '' , and `` I 've Got ta Try '' have been released by Sloan as singles . He is married to Fiona Highet and is father of Stirling Scott and Alistair Scott . Once the holder of several provincial track and field records , he abandoned his athletic aspirations to become a visual artist . After attending the Nova Scotia College of Art & Design University -LRB- NSCAD U -RRB- , he joined Chris Murphy , Jay Ferguson , and Patrick Pentland in Sloan .",
+          "score": 0.19854608178138733,
+          "lexical_score": 0.07038769156851463,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            },
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.03225806451612903,
+          "query_variants": [
+            "There are people in Ontario.",
+            "There are people Ontario",
+            "There Ontario"
+          ]
+        },
+        {
+          "doc_id": "Calton,_Ontario",
+          "title": "Calton, Ontario",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Calton,_Ontario",
+          "domain": "wikipedia.org",
+          "text": "Calton , Ontario is a hamlet within the township of Malahide in Elgin County , Ontario , Canada .",
+          "score": 0.3883703649044037,
+          "lexical_score": 0.3287742734302005,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "There are people in Ontario.",
+            "There are people Ontario",
+            "There Ontario"
+          ]
+        }
+      ],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "There are people in Ontario.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.20178875095797486,
+            "contradiction": 0.15151403308618866,
+            "neutral": 0.6466972159558365
+          }
+        }
+      ],
+      "latency_seconds": 0.06882529999984399,
+      "error": null
+    },
+    {
+      "id": "fever-203223",
+      "claim_or_answer": "The English Civil War ended in 1651 in London.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 203223; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "English_Civil_War",
+        "Battle_of_Worcester"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "History_of_Brasenose_College,_Oxford",
+          "title": "History of Brasenose College, Oxford",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/History_of_Brasenose_College,_Oxford",
+          "domain": "wikipedia.org",
+          "text": "The history of Brasenose College , Oxford stretches back to 1509 , when the college was founded on the site of Brasenose Hall . Its name is believed to derive from the name of a bronze knocker that adorned the hall 's door . The college was associated with Lancashire and Cheshire , the county origins of its two founders -- Sir Richard Sutton and the Bishop of Lincoln , William Smyth -- a link that was maintained strongly until the latter half of the nineteenth century . The first principals navigated Brasenose , with its Catholic sympathisers , through the reformation and continuing religious reforms . Most of Brasenose favoured the Royalist side during the English Civil War , although it produced notable generals and clergy on both sides . The library and chapel were completed in the mid-seventeenth century , despite Brasenose suffering continuing financial problems . The post-1785 period would see an era of prosperity of the college under Principal William Cleaver . The college began to be populated by gentlemen , its income doubling between 1790 and 1810 , and academic success considerable . Efforts to reconstruct Brasenose were not completed , however , until the",
+          "score": 0.26998353004455566,
+          "lexical_score": 0.1133039561909501,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "The English Civil War ended in 1651 in London.",
+            "The English Civil War ended 1651 London",
+            "The English Civil War London"
+          ]
+        },
+        {
+          "doc_id": "Villanueva_de_Sigena",
+          "title": "Villanueva de Sigena",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Villanueva_de_Sigena",
+          "domain": "wikipedia.org",
+          "text": "in 1936 by anti-clerical Republicans in the Spanish Civil War . It is now in the process of restoration , and has been reoccupied by nuns since 1985 . Several royal burials were made in the convent church , including Sancha , who died there , her son Pedro II of Aragon and two of his sisters . The chapter house housed extremely important Romanesque frescos of about 1200 by largely English artists , probably including some of those who produced the Winchester Bible ; this was only realized after their destruction . The artists also appear to have visited Palermo before Sigena , as some influence from mosaics there can be seen . The frescos had been fully photographed in black and white shortly before their destruction , and the remaining damaged sections , mostly having lost their colour , are in the Museu Nacional d'Art de Catalunya in Barcelona .",
+          "score": 0.11153967678546906,
+          "lexical_score": 0.07505564489060998,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.016129032258064516,
+          "query_variants": [
+            "The English Civil War ended in 1651 in London.",
+            "The English Civil War ended 1651 London",
+            "The English Civil War London"
+          ]
+        },
+        {
+          "doc_id": "Francis_Hemming",
+          "title": "Francis Hemming",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Francis_Hemming",
+          "domain": "wikipedia.org",
+          "text": "Arthur Francis Hemming -LRB- 9 February 1893 -- 22 February 1964 -RRB- was an English entomologist who specialised in Lepidoptera . He was mostly known , both professionally and socially , as Francis Hemming . Hemming was a British civil servant and amateur lepidopterist . An expert in biological nomenclature , he served from 1937 to 1958 as Secretary to the International Commission on Zoological Nomenclature and was founder and editor of the Bulletin of Zoological Nomenclature . During his lifetime he published over 1,000 scientific papers on Lepidoptera . His manuscripts and other papers are deposited in the Natural History Museum in London and at the Bodleian Library , Oxford . Hemming was educated at Rugby , and Corpus Christi College , Oxford . During World War I he was severely wounded in 1916 , and in 1918 he joined the British Civil Service . He was private secretary to several ministers and was granted the C.M.G. and C.B.E. for his services , especially in the revision of the International Code of Zoological Nomenclature that was officially adopted in 1958 . The genus Nabokovia -LRB- Lycaenidae -RRB- was named by Hemming in 1960 , in honor of Vladimir Nabokov",
+          "score": 0.21205683052539825,
+          "lexical_score": 0.06542616788881668,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 3
+            }
+          ],
+          "rrf_score": 0.015873015873015872,
+          "query_variants": [
+            "The English Civil War ended in 1651 in London.",
+            "The English Civil War ended 1651 London",
+            "The English Civil War London"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The English Civil War ended in 1651 in London.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.28825717828273667,
+            "contradiction": 0.14750610038034737,
+            "neutral": 0.5642367213369159
+          }
+        }
+      ],
+      "latency_seconds": 0.04217510000034963,
+      "error": null
+    },
+    {
+      "id": "fever-209516",
+      "claim_or_answer": "Sleep can be disrupted by sleep paralysis.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 209516; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Adhesive_capsulitis_of_shoulder",
+          "title": "Adhesive capsulitis of shoulder",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Adhesive_capsulitis_of_shoulder",
+          "domain": "wikipedia.org",
+          "text": "sleep deprivation for prolonged periods due to pain that gets worse when lying still and restricted movement/positions . The condition can lead to depression , problems in the neck and back , and severe weight loss due to long-term lack of deep sleep . People who suffer from adhesive capsulitis may have extreme difficulty concentrating , working , or performing daily life activities for extended periods of time . The condition tends to be self-limiting and usually resolves over time without surgery . Most people regain about 90 % of shoulder motion over time .",
+          "score": 0.23063606023788452,
+          "lexical_score": 0.1755978156300102,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Sleep can be disrupted by sleep paralysis.",
+            "Sleep can disrupted sleep paralysis",
+            "Sleep"
+          ]
+        }
+      ],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Sleep can be disrupted by sleep paralysis.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.10903833121647916,
+            "contradiction": 0.0014919099514502767,
+            "neutral": 0.8894697588320705
+          }
+        }
+      ],
+      "latency_seconds": 0.04129079999984242,
+      "error": null
+    },
+    {
+      "id": "fever-22951",
+      "claim_or_answer": "Neighbors stars a refrigerator.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 22951; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Foreign_relations_of_Bosnia_and_Herzegovina",
+          "title": "Foreign relations of Bosnia and Herzegovina",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Foreign_relations_of_Bosnia_and_Herzegovina",
+          "domain": "wikipedia.org",
+          "text": "The implementation of the Dayton Accords of 1995 has focused the efforts of policymakers in Bosnia and Herzegovina , as well as the international community , on regional stabilization in the countries-successors of the former Yugoslavia . Relations with its neighbors of Croatia , Montenegro and Serbia have been fairly stable since the signing of the Dayton Agreement in 1995 .",
+          "score": 0.1252945065498352,
+          "lexical_score": 0.13886813597104958,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Neighbors stars a refrigerator.",
+            "Neighbors stars refrigerator",
+            "Neighbors"
+          ]
+        }
+      ],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Neighbors stars a refrigerator.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.025630961784430018,
+            "contradiction": 0.0017744050489973244,
+            "neutral": 0.9725946331665728
+          }
+        }
+      ],
+      "latency_seconds": 0.03323149999960151,
+      "error": null
+    },
+    {
+      "id": "fever-16737",
+      "claim_or_answer": "Andy Dwyer appears as a character.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 16737; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Andy_Dwyer"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Andy Dwyer appears as a character.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009796700000151759,
+      "error": null
+    },
+    {
+      "id": "fever-154918",
+      "claim_or_answer": "Ron Swanson enjoys watching the sunset.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 154918; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Ron Swanson enjoys watching the sunset.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01014969999960158,
+      "error": null
+    },
+    {
+      "id": "fever-160257",
+      "claim_or_answer": "The Backstreet Boys was founded in 1993.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 160257; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Backstreet_Boys"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Backstreet Boys was founded in 1993.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010207899999841175,
+      "error": null
+    },
+    {
+      "id": "fever-53539",
+      "claim_or_answer": "Coldplay released an EP with a indie label.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 53539; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Coldplay released an EP with a indie label.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010152500000003783,
+      "error": null
+    },
+    {
+      "id": "fever-63650",
+      "claim_or_answer": "Brian Eno studied dead bodies.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 63650; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Brian Eno studied dead bodies.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009959500000150001,
+      "error": null
+    },
+    {
+      "id": "fever-59965",
+      "claim_or_answer": "Mark Cuban is a person who is a philanthropist.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 59965; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Mark_Cuban"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Mark Cuban is a person who is a philanthropist.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.011376900000868773,
+      "error": null
+    },
+    {
+      "id": "fever-213032",
+      "claim_or_answer": "Marlon Brando was in a film by someone who died in 1993 and he was American.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 213032; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Marlon Brando was in a film by someone who died in 1993 and he was American.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.013245699999970384,
+      "error": null
+    },
+    {
+      "id": "fever-6108",
+      "claim_or_answer": "Beastie Boys appeared on a compilation album released by ROIR.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 6108; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Beastie Boys appeared on a compilation album released by ROIR.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.011310299999422568,
+      "error": null
+    },
+    {
+      "id": "fever-61700",
+      "claim_or_answer": "Following was written and directed.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 61700; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Following"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Divergence_-LRB-Star_Trek-COLON-_Enterprise-RRB-",
+          "title": "Divergence -LRB-Star Trek-COLON- Enterprise-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Divergence_-LRB-Star_Trek-COLON-_Enterprise-RRB-",
+          "domain": "wikipedia.org",
+          "text": "`` Divergence '' is the sixteenth episode of the fourth season of the American science fiction television series Star Trek : Enterprise . It originally aired on February 25 , 2005 in the United States on UPN . It was the fourth episode of Enterprise to be written by Judith and Garfield Reeves-Stevens , and was the first episode of a Star Trek series directed by David Barrett . `` Divergence '' is the second part of a two part story , following on from `` Affliction '' . Set in the 22nd century , the series follows the adventures of the first Starfleet starship Enterprise , registration NX-01 . In this episode , Columbia arrives so that Commander Tucker can be transferred to conduct repairs on Enterprises warp engine before it overloads . The two ships then pursue a lead to a Klingon research outpost where Phlox is under pressure to cure the virus that the Klingons created from augmented human DNA . Filming took eight days , with a two-week seasonal hiatus towards the end of December . In addition to the guest stars who appeared in `` Affliction '' , they were joined by Wayne Grace as",
+          "score": 0.09383910894393921,
+          "lexical_score": 0.05010116917309433,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.03278688524590164,
+          "query_variants": [
+            "Following was written and directed.",
+            "Following was written and directed",
+            "Following"
+          ]
+        },
+        {
+          "doc_id": "Loser_Like_Me_-LRB-Glee-RRB-",
+          "title": "Loser Like Me -LRB-Glee-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Loser_Like_Me_-LRB-Glee-RRB-",
+          "domain": "wikipedia.org",
+          "text": "`` Loser Like Me '' is the premiere episode of the sixth season of the American musical television series Glee , and the 109th overall . The episode was written by all the series creators Ryan Murphy , Brad Falchuk , and Ian Brennan , directed by Bradley Buecker , and first aired on January 9 , 2015 on Fox in the United States along with the next episode , `` Homecoming '' , as a special two-hour premiere . The episode features the start of a new school year at McKinley High , but Principal Sylvester -LRB- Jane Lynch -RRB- has disbanded all the arts . Following the epic failure of the very first episode of her semi-autobiographical live TV series , Rachel Berry -LRB- Lea Michele -RRB- is decided to reinstate the arts and reviving New Directions at McKinley with the help of her best friend Kurt Hummel -LRB- Chris Colfer -RRB- . Blaine Anderson -LRB- Darren Criss -RRB- is now the coach of the Dalton Academy Warblers , and Will Schuester -LRB- Matthew Morrison -RRB- is coaching McKinley 's bitter rivals , Vocal Adrenaline . The episode received positive reviews from critics , most of them remarking",
+          "score": 0.1175902709364891,
+          "lexical_score": 0.04799180448392532,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            },
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.03225806451612903,
+          "query_variants": [
+            "Following was written and directed.",
+            "Following was written and directed",
+            "Following"
+          ]
+        },
+        {
+          "doc_id": "Theo_Shall",
+          "title": "Theo Shall",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Theo_Shall",
+          "domain": "wikipedia.org",
+          "text": "Theo Shall -LRB- 1896 -- 1955 -RRB- was a German stage and film actor . He was born in Metz when it was part of the German Empire but left following its transfer to France following the First World War .",
+          "score": 0.05078847333788872,
+          "lexical_score": 0.14323822684996174,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Following was written and directed.",
+            "Following was written and directed",
+            "Following"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Following was written and directed.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.18438986341777666,
+            "contradiction": 0.00023700831808533724,
+            "neutral": 0.815373128264138
+          }
+        }
+      ],
+      "latency_seconds": 0.07879479999974137,
+      "error": null
+    },
+    {
+      "id": "fever-204857",
+      "claim_or_answer": "Apple Store employees were banned from product discounts.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 204857; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Apple_Store"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Changes_-LRB-Godsmack_video_album-RRB-",
+          "title": "Changes -LRB-Godsmack video album-RRB-",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Changes_-LRB-Godsmack_video_album-RRB-",
+          "domain": "wikipedia.org",
+          "text": "Changes is a documentary and live DVD released in September 2004 by the rock band Godsmack . The DVD was recorded in early 2004 . That same month , the group also released `` Batalla de los Tambores '' a drum duel between Shannon and Sully , available only via online services such as Apple 's iTunes Music Store , Real , Napster , and the Zune Marketplace . The DVD has been certified Gold by the RIAA , with access sales of 50,000 copies in the United States .",
+          "score": 0.1909494698047638,
+          "lexical_score": 0.12475128018546633,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Apple Store employees were banned from product discounts.",
+            "Apple Store employees were banned from product discounts",
+            "Apple Store"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Apple Store employees were banned from product discounts.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.05092312577245462,
+            "contradiction": 2.771684368689535e-05,
+            "neutral": 0.9490491573838584
+          }
+        }
+      ],
+      "latency_seconds": 0.03320270000040182,
+      "error": null
+    },
+    {
+      "id": "fever-68123",
+      "claim_or_answer": "Britney Spears has yet to release an album.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 68123; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Britney_Spears"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Britney Spears has yet to release an album.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008378900000025169,
+      "error": null
+    },
+    {
+      "id": "fever-208834",
+      "claim_or_answer": "Tim Rice worked on anything except The Lion King.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 208834; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Tim_Rice"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Tim Rice worked on anything except The Lion King.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009123400000135007,
+      "error": null
+    },
+    {
+      "id": "fever-34172",
+      "claim_or_answer": "Kangana Ranaut trained under an Indian theatre director.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 34172; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Kangana_Ranaut",
+        "Arvind_Gaur"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Kangana Ranaut trained under an Indian theatre director.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009183799999846087,
+      "error": null
+    },
+    {
+      "id": "fever-109880",
+      "claim_or_answer": "Iceland was established in the year 777 AD.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 109880; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Iceland"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Iceland was established in the year 777 AD.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009502799999609124,
+      "error": null
+    },
+    {
+      "id": "fever-80815",
+      "claim_or_answer": "Queen Victoria was the progeny of Prince Edward.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 80815; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Queen_Victoria"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Queen Victoria was the progeny of Prince Edward.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008300800000142772,
+      "error": null
+    }
+  ]
+}

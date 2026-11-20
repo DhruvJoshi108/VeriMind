@@ -1,0 +1,1139 @@
+{
+  "records": [
+    {
+      "record_type": "run_metadata",
+      "timestamp_utc": "20261115T095544Z",
+      "split": "dev",
+      "seed": 42,
+      "model": "scikit-learn MLPClassifier (synthetic offline training data)",
+      "mode": "offline_verimind_pipeline",
+      "baseline_is_plain_llm": false,
+      "retriever": "local HybridRetriever; optional web search is not enabled by this evaluator",
+      "configuration": {
+        "seed": 42,
+        "nli_random_state": 42,
+        "training_data": "verimind.data.build_synthetic_dataset",
+        "retrieval_evidence_limit_per_claim": 3,
+        "risk_flag_threshold": 60
+      },
+      "temperature": null,
+      "summary": {
+        "n_cases": 30,
+        "n_completed": 30,
+        "n_errors": 0,
+        "error_categories": {},
+        "accuracy": 0.3333333333333333,
+        "accuracy_wilson_95_ci": [
+          0.19230498083676134,
+          0.5121994835545616
+        ],
+        "class_metrics": {
+          "supported": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 10
+          },
+          "refuted": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 10
+          },
+          "unverifiable": {
+            "precision": 0.3333333333333333,
+            "recall": 1.0,
+            "f1": 0.5,
+            "support": 10
+          }
+        },
+        "confusion_matrix_labels": [
+          "supported",
+          "refuted",
+          "unverifiable"
+        ],
+        "confusion_matrix": [
+          [
+            0,
+            0,
+            10
+          ],
+          [
+            0,
+            0,
+            10
+          ],
+          [
+            0,
+            0,
+            10
+          ]
+        ],
+        "unverifiable_rate": 1.0,
+        "unverifiable_rate_flagged": true,
+        "true_unverifiable_rate": 0.3333333333333333,
+        "dangerous_error_rate_refuted_predicted_supported": 0.0,
+        "dangerous_errors": 0,
+        "refuted_cases": 10,
+        "retrieval_hit_rate_verifiable_claims": 0.0,
+        "retrieval_hit_count": 0,
+        "retrieval_evaluable_count": 20,
+        "retrieval_cases_without_gold_evidence": 0,
+        "judge_accuracy_when_retrieval_hit": {
+          "accuracy": null,
+          "n": 0,
+          "errors": 0
+        },
+        "judge_accuracy_when_retrieval_missed": {
+          "accuracy": 0.0,
+          "n": 20,
+          "errors": 0
+        },
+        "mean_latency_seconds": 0.01712821666654539
+      }
+    },
+    {
+      "id": "fever-182124",
+      "claim_or_answer": "Loving was directed by Nick Kroll.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 182124; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Loving_-LRB-2016_film-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Loving was directed by Nick Kroll.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010164999999688007,
+      "error": null
+    },
+    {
+      "id": "fever-19397",
+      "claim_or_answer": "Katie Price is currently married to Kieran Hayler.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 19397; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Katie_Price"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Katie Price is currently married to Kieran Hayler.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009110099999816157,
+      "error": null
+    },
+    {
+      "id": "fever-12839",
+      "claim_or_answer": "Eva Longoria is a Bostonian.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 12839; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Eva Longoria is a Bostonian.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.00534949999928358,
+      "error": null
+    },
+    {
+      "id": "fever-166562",
+      "claim_or_answer": "Christine Daaé is a character by Victor Hugo.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 166562; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Christine_Daaé"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Christine Daaé is a character by Victor Hugo.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.0077896999991935445,
+      "error": null
+    },
+    {
+      "id": "fever-224823",
+      "claim_or_answer": "Black Sabbath formed in Dublin.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 224823; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Black_Sabbath"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Black Sabbath formed in Dublin.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.0071861000014905585,
+      "error": null
+    },
+    {
+      "id": "fever-82911",
+      "claim_or_answer": "Louise Simonson was born on September 26, 1926.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 82911; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Louise_Simonson"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Louise Simonson was born on September 26, 1926.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.00804220000100031,
+      "error": null
+    },
+    {
+      "id": "fever-45452",
+      "claim_or_answer": "Uranus is the coldest planet in the Solar System",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 45452; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Uranus is the coldest planet in the Solar System",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007722000000285334,
+      "error": null
+    },
+    {
+      "id": "fever-99235",
+      "claim_or_answer": "Clint Eastwood is an American singer.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 99235; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Put_Yourself_in_My_Shoes",
+          "title": "Put Yourself in My Shoes",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Put_Yourself_in_My_Shoes",
+          "domain": "wikipedia.org",
+          "text": "Put Yourself in My Shoes is a 1990 studio album by American country music singer-songwriter Clint Black . As with Black 's debut album Killin ' Time , the album is currently certified triple platinum by the RIAA . All four singles from the album produced huge hits for Black on the Billboard Hot Country Singles & Tracks charts : `` Loving Blind '' and `` Where Are You Now '' both at Number One ; the title track at # 4 ; and `` One More Payment '' at # 7 . `` This Nightlife '' also charted at # 61 from unsolicited airplay .",
+          "score": 0.2165490984916687,
+          "lexical_score": 0.08315735190644839,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.03278688524590164,
+          "query_variants": [
+            "Clint Eastwood is an American singer.",
+            "Clint Eastwood American singer",
+            "Clint Eastwood American"
+          ]
+        }
+      ],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Clint Eastwood is an American singer.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.25074936096307826,
+            "contradiction": 0.005401824364204157,
+            "neutral": 0.7438488146727176
+          }
+        }
+      ],
+      "latency_seconds": 0.10912980000102834,
+      "error": null
+    },
+    {
+      "id": "fever-3591",
+      "claim_or_answer": "Barbara Stanwyck starred in Ball of Fire.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 3591; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Barbara_Stanwyck",
+        "Ball_of_Fire"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Barbara Stanwyck starred in Ball of Fire.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010137299999769311,
+      "error": null
+    },
+    {
+      "id": "fever-103384",
+      "claim_or_answer": "Grace Jones inspired an Irish restaurant.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 103384; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Grace Jones inspired an Irish restaurant.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010910400000284426,
+      "error": null
+    },
+    {
+      "id": "fever-55612",
+      "claim_or_answer": "The Wolf of Wall Street (2013 film) is a film.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 55612; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "The_Wolf_of_Wall_Street_-LRB-2013_film-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Wolf_of_Wall_Street",
+          "title": "Wolf of Wall Street",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Wolf_of_Wall_Street",
+          "domain": "wikipedia.org",
+          "text": "Wolf of Wall Street may refer to : The Wolf of Wall Street -LRB- book -RRB- , a 2007 memoir of Jordan Belfort , who was himself nicknamed the Wolf of Wall Street The Wolf of Wall Street -LRB- 2013 film -RRB- , a film by Martin Scorsese based on Belfort 's memoir The Wolf of Wall Street -LRB- 1929 film -RRB- , a silent film by Rowland V. Lee and starring George Bancroft David Lamar -LRB- 1876 -- 1934 -RRB- , con man known as `` The Wolf of Wall Street ''",
+          "score": 0.684584379196167,
+          "lexical_score": 0.518988828755314,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            },
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.04918032786885246,
+          "query_variants": [
+            "The Wolf of Wall Street (2013 film) is a film.",
+            "The Wolf Wall Street 2013 film film",
+            "The Wolf Wall Street"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Wolf of Wall Street (2013 film) is a film.",
+          "verdict": "uncertain",
+          "risk_score": 91.5,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.18572133745126057,
+            "contradiction": 0.49639940807939903,
+            "neutral": 0.31787925446934046
+          }
+        }
+      ],
+      "latency_seconds": 0.07571839999945951,
+      "error": null
+    },
+    {
+      "id": "fever-69733",
+      "claim_or_answer": "Portia de Rossi appeared in a part.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 69733; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Portia_de_Rossi"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Portia de Rossi appeared in a part.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008119300000544172,
+      "error": null
+    },
+    {
+      "id": "fever-169902",
+      "claim_or_answer": "The middle name of Peyton Manning is Williams.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 169902; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Peyton_Manning"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The middle name of Peyton Manning is Williams.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008671100000356091,
+      "error": null
+    },
+    {
+      "id": "fever-216754",
+      "claim_or_answer": "Reds was written by James Patrick Kelly.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 216754; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Reds_-LRB-film-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Reds was written by James Patrick Kelly.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009666800000559306,
+      "error": null
+    },
+    {
+      "id": "fever-56920",
+      "claim_or_answer": "YouTube is headquartered in San Bruno, California.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 56920; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "YouTube"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "YouTube is headquartered in San Bruno, California.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009677500000179862,
+      "error": null
+    },
+    {
+      "id": "fever-173954",
+      "claim_or_answer": "Vera Farmiga is only an actress.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 173954; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Vera_Farmiga"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Vera Farmiga is only an actress.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009868899998764391,
+      "error": null
+    },
+    {
+      "id": "fever-186726",
+      "claim_or_answer": "Calvin Harris is from India.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 186726; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Calvin_Harris"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Calvin Harris is from India.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.011549599999852944,
+      "error": null
+    },
+    {
+      "id": "fever-221948",
+      "claim_or_answer": "Rabat is in eastern Morocco.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 221948; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Rabat is in eastern Morocco.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.013487500000337604,
+      "error": null
+    },
+    {
+      "id": "fever-95593",
+      "claim_or_answer": "Elementary has a cast.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 95593; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Elementary_-LRB-TV_series-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "Charles_Spencer_Elementary_School",
+          "title": "Charles Spencer Elementary School",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Charles_Spencer_Elementary_School",
+          "domain": "wikipedia.org",
+          "text": "Charles Spencer Elementary School is a public school in Tifton , Georgia , United States .",
+          "score": 0.3137095868587494,
+          "lexical_score": 0.2875960259922765,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Elementary has a cast.",
+            "Elementary has cast",
+            "Elementary"
+          ]
+        },
+        {
+          "doc_id": "Aloma_Elementary_School",
+          "title": "Aloma Elementary School",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/Aloma_Elementary_School",
+          "domain": "wikipedia.org",
+          "text": "Aloma Elementary school is a public elementary school in Winter Park , Florida , part of the Orange County Public Schools system . The school has an enrollment of 569 students and 14.23 teacher to student ratio . Its mascot is an eagle of red and white color .",
+          "score": 0.31958359479904175,
+          "lexical_score": 0.24168500972850243,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.016129032258064516,
+          "query_variants": [
+            "Elementary has a cast.",
+            "Elementary has cast",
+            "Elementary"
+          ]
+        },
+        {
+          "doc_id": "Brookville_Area_School_District",
+          "title": "Brookville Area School District",
+          "passage_id": 1,
+          "source": "https://en.wikipedia.org/wiki/Brookville_Area_School_District",
+          "domain": "wikipedia.org",
+          "text": "Grove Elementary School -LRB- 3rd-6th -RRB- , Pinecreek Elementary School -LRB- 1st-2nd -RRB- , and Northside Elementary School -LRB- K -RRB- . The district is part of the Riverview Intermediate Unit 6 region . The intermediate unit provides support services and therapy to special education students . It also provides training to school personnel . The district is governed by a locally elected , nine member school board who serve a four-year term , the Pennsylvania General Assembly and the Pennsylvania Department of Education .",
+          "score": 0.3050071895122528,
+          "lexical_score": 0.18493357450866685,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 3
+            }
+          ],
+          "rrf_score": 0.015873015873015872,
+          "query_variants": [
+            "Elementary has a cast.",
+            "Elementary has cast",
+            "Elementary"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Elementary has a cast.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.1938670941084926,
+            "contradiction": 0.0007628614651440646,
+            "neutral": 0.8053700444263634
+          }
+        }
+      ],
+      "latency_seconds": 0.03994160000002012,
+      "error": null
+    },
+    {
+      "id": "fever-87386",
+      "claim_or_answer": "CeeLo Green has a song called Fuck You!.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 87386; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "CeeLo_Green"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "CeeLo Green has a song called Fuck You!.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.012869400001363829,
+      "error": null
+    },
+    {
+      "id": "fever-94846",
+      "claim_or_answer": "Beauty and the Beast stars Mario.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 94846; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Beauty and the Beast stars Mario.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.008852399998431792,
+      "error": null
+    },
+    {
+      "id": "fever-171951",
+      "claim_or_answer": "Warm Leatherette is a musical record..",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 171951; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Warm Leatherette is a musical record..",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.007757600000331877,
+      "error": null
+    },
+    {
+      "id": "fever-28476",
+      "claim_or_answer": "Telangana borders Japan.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 28476; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Telangana borders Japan.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009238900000127614,
+      "error": null
+    },
+    {
+      "id": "fever-5668",
+      "claim_or_answer": "The Wild Thornberrys is a film.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 5668; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "The_Wild_Thornberrys"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "The Wild Thornberrys is a film.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010492199999134755,
+      "error": null
+    },
+    {
+      "id": "fever-200017",
+      "claim_or_answer": "Denial was released in Canada on September 30, 2016.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 200017; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "Denial was released in Canada on September 30, 2016.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.010794899999382324,
+      "error": null
+    },
+    {
+      "id": "fever-87471",
+      "claim_or_answer": "Matt Smith is a lemon.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 87471; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Matt_Smith_-LRB-actor-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Matt Smith is a lemon.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.009084600000278442,
+      "error": null
+    },
+    {
+      "id": "fever-107562",
+      "claim_or_answer": "Glee: The 3D Concert Movie has no director.",
+      "question": "",
+      "true_label": "refuted",
+      "source_note": "FEVER v1.0 train claim id 107562; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Glee_-LRB-TV_series-RRB-"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Glee: The 3D Concert Movie has no director.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01292259999900125,
+      "error": null
+    },
+    {
+      "id": "fever-23064",
+      "claim_or_answer": "Billy Bob Thornton directed the film All the Pretty Horses.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 23064; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Billy_Bob_Thornton"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Billy Bob Thornton directed the film All the Pretty Horses.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.012483199998314376,
+      "error": null
+    },
+    {
+      "id": "fever-20929",
+      "claim_or_answer": "Social anxiety disorder causes distress.",
+      "question": "",
+      "true_label": "supported",
+      "source_note": "FEVER v1.0 train claim id 20929; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [
+        "Social_anxiety_disorder"
+      ],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [
+        {
+          "doc_id": "David_Jamilly",
+          "title": "David Jamilly",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/David_Jamilly",
+          "domain": "wikipedia.org",
+          "text": "David Jamilly is an English Social entrepreneur",
+          "score": 0.26237809658050537,
+          "lexical_score": 0.17796458814225802,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 1
+            }
+          ],
+          "rrf_score": 0.01639344262295082,
+          "query_variants": [
+            "Social anxiety disorder causes distress.",
+            "Social anxiety disorder causes distress",
+            "Social"
+          ]
+        },
+        {
+          "doc_id": "University_of_Massachusetts_Amherst_College_of_Social_and_Behavioral_Sciences",
+          "title": "University of Massachusetts Amherst College of Social and Behavioral Sciences",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/University_of_Massachusetts_Amherst_College_of_Social_and_Behavioral_Sciences",
+          "domain": "wikipedia.org",
+          "text": "The University of Massachusetts Amherst College of Social and Behavioral Sciences is a school at the University of Massachusetts Amherst .",
+          "score": 0.31264644861221313,
+          "lexical_score": 0.17758224707272435,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 2
+            }
+          ],
+          "rrf_score": 0.016129032258064516,
+          "query_variants": [
+            "Social anxiety disorder causes distress.",
+            "Social anxiety disorder causes distress",
+            "Social"
+          ]
+        },
+        {
+          "doc_id": "SEEM",
+          "title": "SEEM",
+          "passage_id": 0,
+          "source": "https://en.wikipedia.org/wiki/SEEM",
+          "domain": "wikipedia.org",
+          "text": "SEEM as an acronym may stand for : Serially Electrically Erasable Memory Social Enterprise East Midlands",
+          "score": 0.26634469628334045,
+          "lexical_score": 0.15491014557022817,
+          "retrieval_sources": [
+            {
+              "backend": "faiss",
+              "rank": 3
+            }
+          ],
+          "rrf_score": 0.015873015873015872,
+          "query_variants": [
+            "Social anxiety disorder causes distress.",
+            "Social anxiety disorder causes distress",
+            "Social"
+          ]
+        }
+      ],
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "judge_reasoning": [
+        {
+          "claim": "Social anxiety disorder causes distress.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.27810521554862194,
+            "contradiction": 0.025536025511789927,
+            "neutral": 0.6963587589395882
+          }
+        }
+      ],
+      "latency_seconds": 0.03675259999909031,
+      "error": null
+    },
+    {
+      "id": "fever-43640",
+      "claim_or_answer": "The Land Before Time was sang by Steven Spielberg and George Lucas.",
+      "question": "",
+      "true_label": "unverifiable",
+      "source_note": "FEVER v1.0 train claim id 43640; original Wikipedia annotation; not independently rechecked against a current Wikipedia revision.",
+      "gold_evidence": [],
+      "predicted_label": "unverifiable",
+      "retrieved_passages": [],
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "judge_reasoning": [
+        {
+          "claim": "The Land Before Time was sang by Steven Spielberg and George Lucas.",
+          "verdict": "uncertain",
+          "risk_score": 100.0,
+          "why": "The claim is weakly supported or lacks enough trustworthy evidence.",
+          "nli_probabilities": {
+            "entailment": 0.15,
+            "contradiction": 0.2,
+            "neutral": 0.65
+          }
+        }
+      ],
+      "latency_seconds": 0.01035529999899154,
+      "error": null
+    }
+  ]
+}

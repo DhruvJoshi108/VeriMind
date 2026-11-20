@@ -1,0 +1,13 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements-api-deploy.txt ./requirements-api-deploy.txt
+RUN pip install --no-cache-dir -r requirements-api-deploy.txt \
+    && useradd --create-home --uid 10001 verimind
+COPY api ./api
+COPY verimind ./verimind
+RUN mkdir -p /app/data && chown -R verimind:verimind /app
+USER verimind
+ENV PYTHONPATH=/app
+EXPOSE 10000
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-10000}"]

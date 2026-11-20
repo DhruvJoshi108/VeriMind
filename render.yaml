@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: verimind-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./deploy/Dockerfile.render-api
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: API_KEY
+        sync: false
+      - key: SEARCH_BACKEND
+        value: "null"
+      - key: JUDGE_BACKEND
+        value: local
+      - key: CORS_ORIGINS
+        value: https://verimind-dashboard.onrender.com
+
+  - type: web
+    name: verimind-dashboard
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./dashboard/Dockerfile
+    dockerContext: .
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: VERIMIND_API_URL
+        value: https://verimind-api.onrender.com
+      - key: VERIMIND_API_KEY
+        sync: false
+      - key: VERIMIND_EVAL_RESULTS_DIR
+        value: /app/eval/results

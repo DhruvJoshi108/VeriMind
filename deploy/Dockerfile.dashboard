@@ -1,0 +1,12 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && useradd --create-home --uid 10001 verimind
+COPY . .
+RUN chown -R verimind:verimind /app
+USER verimind
+ENV PYTHONPATH=/app
+EXPOSE 8501
+CMD ["streamlit", "run", "dashboard/app.py", "--server.address", "0.0.0.0", "--server.port", "8501"]

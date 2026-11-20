@@ -1,0 +1,28 @@
+{
+  "records": [
+    {
+      "id": "case-supported",
+      "true_label": "supported",
+      "predicted_label": "supported",
+      "retrieval_hit": true,
+      "retrieval_evaluable": true,
+      "error": null
+    },
+    {
+      "id": "case-refuted",
+      "true_label": "refuted",
+      "predicted_label": "unverifiable",
+      "retrieval_hit": false,
+      "retrieval_evaluable": true,
+      "error": null
+    },
+    {
+      "id": "case-unknown",
+      "true_label": "unverifiable",
+      "predicted_label": "unverifiable",
+      "retrieval_hit": null,
+      "retrieval_evaluable": false,
+      "error": null
+    }
+  ]
+}

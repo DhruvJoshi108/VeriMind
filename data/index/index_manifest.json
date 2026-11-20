@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "source": "FEVER v1.0 Wikipedia pages dump (2022 snapshot)",
+  "source_url": "https://fever.ai/download/fever/wiki-pages.zip",
+  "sample_method": "reservoir sample from the complete independent Wikipedia page dump; no evaluation claims or labels used",
+  "sample_seed": 42,
+  "source_rows_scanned": 5396106,
+  "created_at_utc": "2026-10-22T09:51:19.767098+00:00",
+  "page_count": 5000,
+  "passage_count": 5870,
+  "embedding_backend": "sentence-transformers",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "dimension": 384,
+  "normalized_embeddings": true,
+  "metric": "inner_product",
+  "passage_words": 200,
+  "page_extract_character_limit": 40000
+}
