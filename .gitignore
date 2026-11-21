@@ -19,3 +19,5 @@ data/corpus/wiki-pages.zip
 *.pem
 *.key
 secrets/
+
+!.python-version
