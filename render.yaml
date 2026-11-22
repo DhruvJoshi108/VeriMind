@@ -22,8 +22,7 @@ services:
         value: local
       - key: CORS_ORIGINS
         value: https://verimind-dashboard.onrender.com
-    envVarGroups:
-      - verimind-api-auth
+      - fromGroup: verimind-api-auth
 
   - type: web
     name: verimind-dashboard
@@ -36,5 +35,4 @@ services:
     envVars:
       - key: VERIMIND_API_URL
         value: https://verimind-api.onrender.com
-    envVarGroups:
-      - verimind-api-auth
+      - fromGroup: verimind-api-auth
