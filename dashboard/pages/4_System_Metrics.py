@@ -21,8 +21,8 @@ refresh_seconds = {"Off": None, "5 seconds": 5, "10 seconds": 10, "30 seconds": 
 
 
 @st.cache_data(ttl=5, show_spinner=False)
-def metrics_snapshot(api_url: str, api_key: str, timeout_seconds: float) -> tuple[ApiResult, ApiResult, ApiResult]:
-    api = ApiClient(api_url, api_key, timeout_seconds)
+def metrics_snapshot(api_url: str, timeout_seconds: float) -> tuple[ApiResult, ApiResult, ApiResult]:
+    api = ApiClient(api_url, timeout_seconds=timeout_seconds)
     return api.health(), api.ready(), api.metrics()
 
 
@@ -34,7 +34,6 @@ def _single_value(samples: list[dict[str, Any]], name: str) -> float | None:
 def render_metrics() -> None:
     health, ready, response = metrics_snapshot(
         st.session_state.get("dashboard_api_url", config.api_url),
-        st.session_state.get("dashboard_api_key", config.api_key),
         config.timeout_seconds,
     )
     left, right = st.columns(2)

@@ -1,0 +1,23 @@
+{
+  "source": "FEVER v1.0 train.jsonl with FEVER v1.0 Wikipedia pages",
+  "source_url": "https://fever.ai/download/fever/train.jsonl",
+  "seed": 42,
+  "heldout_dev_test_claims_excluded": 90,
+  "fever_rows": {
+    "source_rows": 145449,
+    "heldout_rows_excluded": 113,
+    "duplicate_claims_skipped": 9909
+  },
+  "wiki_rows_scanned": 5416537,
+  "unique_evidence_lines_found": 33326,
+  "evidence_lines_missing_from_wikipedia_snapshot": 277,
+  "evidence_groups_missing_lines": 1626,
+  "neutral_claims_without_low_overlap_passage": 0,
+  "examples_by_label": {
+    "entailment": 10000,
+    "contradiction": 10000,
+    "neutral": 10000
+  },
+  "max_per_label": 10000,
+  "weak_neutral_pair_method": "random low-overlap passage from the independent FEVER Wikipedia page sample for NOT ENOUGH INFO claims"
+}

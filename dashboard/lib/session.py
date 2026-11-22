@@ -21,6 +21,8 @@ def client() -> ApiClient:
 def _save_connection_inputs() -> None:
     st.session_state["dashboard_api_url"] = st.session_state["dashboard_api_url_input"]
     st.session_state["dashboard_api_key"] = st.session_state["dashboard_api_key_input"]
+    st.session_state.pop("dashboard_connection", None)
+    st.session_state.pop("dashboard_connection_url", None)
 
 
 def connection_sidebar() -> None:
@@ -51,13 +53,22 @@ def connection_sidebar() -> None:
         type="password",
         key="dashboard_api_key_input",
         on_change=_save_connection_inputs,
-        help="Kept only in this browser session.",
+        help="Used for verification requests; not sent to health or metrics endpoints.",
     )
-    st.sidebar.button("Test connection", use_container_width=True)
-    result = client().health()
-    st.session_state["dashboard_connection"] = result
+    test_connection = st.sidebar.button("Test connection", use_container_width=True)
+    api_url = st.session_state["dashboard_api_url"]
+    result = st.session_state.get("dashboard_connection")
+    if test_connection or result is None or st.session_state.get("dashboard_connection_url") != api_url:
+        if test_connection:
+            with st.sidebar:
+                with st.spinner("Checking API connection..."):
+                    result = client().health()
+        else:
+            result = client().health()
+        st.session_state["dashboard_connection"] = result
+        st.session_state["dashboard_connection_url"] = api_url
     if result.ok:
-        st.sidebar.success("API live")
+        st.sidebar.success("API connected")
     else:
         st.sidebar.error(f"API unavailable: {result.error.message}")
         st.sidebar.caption(f"Request ID: {result.request_id}")

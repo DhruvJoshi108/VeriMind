@@ -37,10 +37,12 @@ class ApiClient:
         self.timeout_seconds = timeout_seconds
         self.session = requests.Session()
 
-    def _request(self, method: str, path: str, **kwargs: Any) -> ApiResult:
+    def _request(
+        self, method: str, path: str, *, requires_api_key: bool = False, **kwargs: Any
+    ) -> ApiResult:
         request_id = str(uuid.uuid4())
         headers = {"X-Request-ID": request_id, **kwargs.pop("headers", {})}
-        if self.api_key:
+        if requires_api_key and self.api_key:
             headers["x-api-key"] = self.api_key
         try:
             response = self.session.request(
@@ -110,4 +112,4 @@ class ApiClient:
         return self._request("GET", "/metrics")
 
     def verify(self, text: str) -> ApiResult:
-        return self._request("POST", "/verify", json={"text": text})
+        return self._request("POST", "/verify", requires_api_key=True, json={"text": text})

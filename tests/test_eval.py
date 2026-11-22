@@ -1,4 +1,32 @@
-from eval import normalize_wiki_title, retrieval_hit, summarize, wilson_interval
+from eval import (
+    evaluation_mode,
+    normalize_wiki_title,
+    retrieval_hit,
+    summarize,
+    wilson_interval,
+)
+
+
+def test_evaluation_mode_records_configured_online_providers():
+    assert (
+        evaluation_mode(
+            baseline=False,
+            search_backend="wikipedia",
+            judge_backend="local",
+        )
+        == "configured_provider_pipeline"
+    )
+
+
+def test_evaluation_mode_keeps_the_offline_default_label():
+    assert (
+        evaluation_mode(
+            baseline=False,
+            search_backend="null",
+            judge_backend="local",
+        )
+        == "offline_verimind_pipeline"
+    )
 
 
 def test_wilson_interval_covers_sample_accuracy():

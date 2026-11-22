@@ -5,10 +5,12 @@ from __future__ import annotations
 import pickle
 import re
 from collections.abc import Sequence
+from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import FeatureUnion, Pipeline
 
@@ -78,6 +80,16 @@ class NLIModel:
 
     def fit(self, pairs: Sequence[tuple[str, str]], labels: Sequence[str]) -> NLIModel:
         """Fit the classifier on labeled claim-evidence pairs."""
+        self._validate_training_data(pairs, labels)
+
+        self.pipeline = self._make_pipeline()
+        self.pipeline.fit(self._combine(pairs), labels)
+        classifier = self.pipeline.named_steps["classifier"]
+        self.classes_ = [str(label) for label in classifier.classes_]
+        return self
+
+    @staticmethod
+    def _validate_training_data(pairs: Sequence[tuple[str, str]], labels: Sequence[str]) -> None:
         if len(pairs) != len(labels):
             raise ValueError("Pairs and labels length mismatch")
         if len(pairs) < 3 or len(set(labels)) < 2:
@@ -86,11 +98,64 @@ class NLIModel:
         if unknown_labels:
             raise ValueError(f"Unsupported NLI labels: {sorted(unknown_labels)}")
 
+    def fit_with_validation(
+        self,
+        train_pairs: Sequence[tuple[str, str]],
+        train_labels: Sequence[str],
+        validation_pairs: Sequence[tuple[str, str]],
+        validation_labels: Sequence[str],
+        *,
+        epochs: int = 100,
+        patience: int = 12,
+    ) -> list[dict[str, float | int]]:
+        """Train by epoch, keep the best validation-accuracy checkpoint, and stop early."""
+        self._validate_training_data(train_pairs, train_labels)
+        self._validate_training_data(validation_pairs, validation_labels)
+        if epochs < 1:
+            raise ValueError("epochs must be positive")
+        if patience < 1:
+            raise ValueError("patience must be positive")
+
         self.pipeline = self._make_pipeline()
-        self.pipeline.fit(self._combine(pairs), labels)
+        features = self.pipeline.named_steps["features"]
+        train_features = features.fit_transform(self._combine(train_pairs))
         classifier = self.pipeline.named_steps["classifier"]
-        self.classes_ = [str(label) for label in classifier.classes_]
-        return self
+        history: list[dict[str, float | int]] = []
+        best_pipeline: Pipeline | None = None
+        best_accuracy = -1.0
+        epochs_without_improvement = 0
+
+        for epoch in range(1, epochs + 1):
+            classifier.partial_fit(train_features, train_labels, classes=np.asarray(_LABELS))
+            self.classes_ = [str(label) for label in classifier.classes_]
+            train_accuracy = float(accuracy_score(train_labels, self.predict(train_pairs)))
+            validation_accuracy = float(
+                accuracy_score(validation_labels, self.predict(validation_pairs))
+            )
+            history.append(
+                {
+                    "epoch": epoch,
+                    "train_accuracy": train_accuracy,
+                    "validation_accuracy": validation_accuracy,
+                }
+            )
+
+            if validation_accuracy > best_accuracy:
+                best_accuracy = validation_accuracy
+                best_pipeline = deepcopy(self.pipeline)
+                epochs_without_improvement = 0
+            else:
+                epochs_without_improvement += 1
+                if epochs_without_improvement >= patience:
+                    break
+
+        if best_pipeline is None:
+            raise RuntimeError("Training finished without a validation checkpoint")
+        self.pipeline = best_pipeline
+        self.classes_ = [
+            str(label) for label in self.pipeline.named_steps["classifier"].classes_
+        ]
+        return history
 
     @staticmethod
     def _rule_probabilities(claim: str, evidence: str) -> dict[str, float]:

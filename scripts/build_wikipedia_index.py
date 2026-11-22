@@ -14,10 +14,14 @@ from zipfile import ZipFile
 
 import numpy as np
 import requests
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from verimind.fts_retrieval import build_full_text_index
 from verimind.wiki_pages import PASSAGE_WORDS, page_passages
 
-ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 INDEX_DIR = DATA_DIR / "index"
 ARCHIVE_URL = "https://fever.ai/download/fever/wiki-pages.zip"

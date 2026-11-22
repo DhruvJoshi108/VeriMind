@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f8f7">
+  <title>VERIMIND | Project Home</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172d3a;
+      --muted: #627581;
+      --line: #dce8e7;
+      --paper: #ffffff;
+      --canvas: #f4f8f7;
+      --accent: #137c78;
+      --mint: #2ca58d;
+      --peach: #eaa477;
+      --shadow: 0 18px 55px rgba(24, 58, 64, .09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(160, 221, 211, .34), transparent 34rem),
+        radial-gradient(ellipse at 100% 10%, rgba(255, 220, 190, .28), transparent 30rem),
+        var(--canvas);
+      color: var(--ink);
+      font: 16px/1.6 "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 26px 0 56px;
+    }
+
+    .topbar, .brand, .top-links, .section-heading, .step-top, .folder-title, .footer {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar, .section-heading, .step-top, .footer {
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand { gap: 11px; font-weight: 800; letter-spacing: .12em; }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 13px;
+      background: linear-gradient(140deg, var(--accent), #49b8a5);
+      color: white;
+      box-shadow: 0 8px 18px rgba(19, 124, 120, .24);
+      font-size: 15px;
+      letter-spacing: -.05em;
+    }
+
+    .top-links { gap: 22px; color: var(--muted); font-size: 14px; }
+    .top-links a { text-decoration: none; }
+    .top-links a:hover { color: var(--accent); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 27px;
+      padding: clamp(30px, 6vw, 66px);
+      border: 1px solid rgba(255, 255, 255, .82);
+      border-radius: 30px;
+      background: linear-gradient(115deg, rgba(255,255,255,.96), rgba(245,251,249,.94));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      position: absolute;
+      top: -115px;
+      right: -72px;
+      width: 340px;
+      height: 340px;
+      border: 1px solid rgba(19, 124, 120, .12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 30px rgba(19, 124, 120, .035), 0 0 0 64px rgba(40, 170, 145, .035);
+      content: "";
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      border: 1px solid #d5ece7;
+      border-radius: 999px;
+      background: #eff8f6;
+      color: #176f69;
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); }
+
+    h1 {
+      max-width: 700px;
+      margin: 20px 0 12px;
+      font-size: clamp(36px, 6vw, 66px);
+      line-height: 1.04;
+      letter-spacing: -.055em;
+    }
+
+    h1 span {
+      background: linear-gradient(95deg, var(--accent), #3eaa97 55%, #d78a64);
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy { max-width: 650px; margin: 0; color: var(--muted); font-size: 17px; }
+    .hero-note { margin: 20px 0 0; color: #777e92; font-size: 13px; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 27px; }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+
+    .button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(24,58,64,.1); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: white; }
+
+    section { margin-top: 47px; }
+    .section-heading { align-items: end; margin-bottom: 18px; }
+    .section-heading h2 { margin: 0; font-size: clamp(22px, 3vw, 28px); letter-spacing: -.035em; }
+    .section-heading p { max-width: 480px; margin: 0; color: var(--muted); font-size: 14px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .step, .folder, .callout {
+      border: 1px solid rgba(220, 232, 231, .95);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 8px 25px rgba(24, 58, 64, .045);
+    }
+
+    .step { min-width: 0; padding: 20px; }
+    .step-top { align-items: flex-start; }
+    .step-number {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 10px;
+      background: #e6f3f0;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f1f8f6;
+      color: #278575;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .step h3 { margin: 15px 0 7px; font-size: 17px; letter-spacing: -.02em; }
+    .step p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    code, pre { font-family: Consolas, "Cascadia Code", ui-monospace, monospace; }
+    .command {
+      display: block;
+      overflow-x: auto;
+      margin-top: 13px;
+      padding: 11px 12px;
+      border: 1px solid #e1ecea;
+      border-radius: 10px;
+      background: #f5faf9;
+      color: #286f6a;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .folder-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .folder { min-height: 126px; padding: 17px; }
+    a.button:focus-visible, .top-links a:focus-visible, .footer a:focus-visible {
+      outline: 3px solid rgba(19, 124, 120, .4);
+      outline-offset: 3px;
+    }
+    .folder-title { gap: 9px; font-weight: 800; }
+    .folder-icon {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 9px;
+      background: #e9f5f2;
+      color: var(--accent);
+      font-size: 12px;
+    }
+    .folder:nth-child(3n + 2) .folder-icon { background: #eaf8f4; color: #218c79; }
+    .folder:nth-child(3n) .folder-icon { background: #fff2e8; color: #c37543; }
+    .folder p { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+
+    .callout {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      margin-top: 18px;
+      padding: 19px 21px;
+      border-color: #d8ece8;
+      background: linear-gradient(110deg, #f1f9f7, #fff);
+    }
+    .callout-icon {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 10px;
+      background: #e3f2ef;
+      color: var(--accent);
+      font-weight: 900;
+    }
+    .callout strong { display: block; margin-bottom: 3px; }
+    .callout p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: #7b8498; font-size: 12px; }
+    .footer a { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+    @media (max-width: 850px) {
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .folder-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 24px, 1120px); padding-top: 14px; }
+      .top-links { gap: 12px; font-size: 12px; }
+      .hero { margin-top: 18px; border-radius: 22px; }
+      .steps, .folder-grid { grid-template-columns: 1fr; }
+      .section-heading { display: block; }
+      .section-heading p { margin-top: 7px; }
+      .footer { align-items: flex-start; flex-direction: column; gap: 5px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">V</span><span>VERIMIND</span></div>
+      <nav class="top-links" aria-label="Quick links">
+        <a href="#run-order">Run order</a>
+        <a href="#project-map">Project map</a>
+        <a href="README.md">README</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <span class="eyebrow"><span class="dot"></span> Your project, in one place</span>
+      <h1 id="page-title">Welcome to <span>VERIMIND</span></h1>
+      <p class="hero-copy">
+        An evidence-grounded claim verification project. Start the API, add the dashboard if you
+        want the visual interface, and keep the internal modules in their folders.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="http://127.0.0.1:8000/docs">Open API docs <span aria-hidden="true">↗</span></a>
+        <a class="button" href="http://127.0.0.1:8501">Open dashboard <span aria-hidden="true">↗</span></a>
+        <a class="button" href="README.md">Read setup guide <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="hero-note">Run the commands below from the project root. API/dashboard links need their local services running.</p>
+    </section>
+
+    <section id="run-order" aria-labelledby="run-title">
+      <div class="section-heading">
+        <h2 id="run-title">The happy path</h2>
+        <p>Just the steps needed to try the app. You do not need to run every Python file.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="step-top"><span class="step-number">01</span><span class="tag">Once</span></div>
+          <h3>Open the project folder</h3>
+          <p>Use the project’s own environment, not the backup folder’s Python.</p>
+          <code class="command">Set-Location "C:\path\to\VERIMIND"</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">02</span><span class="tag">First setup</span></div>
+          <h3>Prepare Python</h3>
+          <p>Do this once if you don't already have a working project environment.</p>
+          <code class="command">py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt -r dashboard\requirements.txt</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">03</span><span class="tag">Quick check</span></div>
+          <h3>Try the demo</h3>
+          <p>Runs one sample claim through the local verification pipeline.</p>
+          <code class="command">.\.venv\Scripts\python.exe scripts\demo.py</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">04</span><span class="tag">Terminal 1</span></div>
+          <h3>Start the API</h3>
+          <p>Keep this terminal open while using the app.</p>
+          <code class="command">.\.venv\Scripts\python.exe -m uvicorn api.main:app --reload</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">05</span><span class="tag">Optional · Terminal 2</span></div>
+          <h3>Start the dashboard</h3>
+          <p>Open a second terminal in the same project folder.</p>
+          <code class="command">.\.venv\Scripts\python.exe -m streamlit run dashboard\app.py</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">06</span><span class="tag">When ready</span></div>
+          <h3>Run the checks</h3>
+          <p>Run from the project folder, not from a parent workspace.</p>
+          <code class="command">.\.venv\Scripts\python.exe -m pytest -q</code>
+        </article>
+        <article class="step">
+          <div class="step-top"><span class="step-number">07</span><span class="tag">Optional</span></div>
+          <h3>Explore evaluation</h3>
+          <p>Use the dev split to evaluate; index-building and training are separate workflows.</p>
+          <code class="command">.\.venv\Scripts\python.exe eval.py --split dev</code>
+        </article>
+      </div>
+    </section>
+
+    <section id="project-map" aria-labelledby="map-title">
+      <div class="section-heading">
+        <h2 id="map-title">A little map of the folders</h2>
+        <p>Each folder has a job. Most contain components imported automatically.</p>
+      </div>
+      <div class="folder-grid">
+        <article class="folder"><div class="folder-title"><span class="folder-icon">API</span>api/</div><p>FastAPI application, endpoints, request schemas, and auth dependencies.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">VM</span>verimind/</div><p>Core claim, retrieval, NLI, scoring, and verification pipeline modules.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">UI</span>dashboard/</div><p>Streamlit entry point, pages, and its API client. Pages load automatically.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">▶</span>scripts/</div><p>Optional commands for demo, training, data preparation, and index building.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">✓</span>tests/</div><p>Automated checks. Run them together with <code>pytest</code>.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">EV</span>eval/</div><p>Evaluation support code and saved evaluation outputs.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">R</span>retrieval/</div><p>Retrieval utilities and an optional FAISS index smoke test.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">DB</span>data/</div><p>Corpora, local indexes, and evaluation cases—not scripts to execute.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">ML</span>artifacts/</div><p>Saved model files loaded by the pipeline; see model details in the guide.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">↗</span>deploy/</div><p>Docker and deployment configuration, separate from local startup.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">i</span>docs/</div><p>Project notes and planning documents.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">CI</span>.github/</div><p>CI workflow runs checks automatically on pushes and pull requests.</p></article>
+        <article class="folder"><div class="folder-title"><span class="folder-icon">↗</span>results/</div><p>Saved evaluation summaries and confusion-matrix output.</p></article>
+      </div>
+      <aside class="callout">
+        <span class="callout-icon" aria-hidden="true">!</span>
+        <div>
+          <strong>Important: don’t run modules one by one</strong>
+          <p>Files like <code>api/deps.py</code> and <code>verimind/pipeline.py</code> are imported by the app. Start the API with Uvicorn; start the dashboard with Streamlit. Use the same <code>.venv</code> for every command—don't select Python from <code>__remove_code_git</code>. Notebooks are optional and are not needed for normal use.</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>VERIMIND · Evidence first, one step at a time.</span>
+      <a href="README.md">Full setup, training, and deployment guide →</a>
+    </footer>
+  </main>
+</body>
+</html>

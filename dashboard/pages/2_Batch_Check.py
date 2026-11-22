@@ -9,6 +9,7 @@ import plotly.express as px
 import streamlit as st
 
 from dashboard.lib.config import load_config
+from dashboard.lib.parsing import ClaimColumnMissingError, read_claims_csv
 from dashboard.lib.session import client, connection_sidebar
 
 connection_sidebar()
@@ -22,16 +23,9 @@ pasted = st.text_area("Or paste one claim per line")
 claims: list[str] = []
 if uploaded is not None:
     try:
-        frame = pd.read_csv(uploaded, nrows=config.batch_limit + 1)
-        column = next((item for item in ("claim", "text") if item in frame.columns), None)
-        if column is None:
-            st.error("CSV needs a `claim` or `text` column.")
-        else:
-            claims = [
-                str(item).strip()
-                for item in frame[column].dropna()
-                if isinstance(item, str) and item.strip()
-            ]
+        claims = read_claims_csv(uploaded, config.batch_limit)
+    except ClaimColumnMissingError as exc:
+        st.error(str(exc))
     except (UnicodeDecodeError, pd.errors.EmptyDataError, pd.errors.ParserError):
         st.error("The CSV could not be read. Save it as a standard UTF-8 CSV.")
 elif pasted.strip():

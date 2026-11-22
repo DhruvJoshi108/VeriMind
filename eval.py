@@ -14,6 +14,7 @@ from urllib.parse import unquote
 from PIL import Image, ImageDraw
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
 
+from verimind.config import settings
 from verimind.pipeline import VerificationPipeline
 
 ROOT = Path(__file__).resolve().parent
@@ -60,6 +61,14 @@ def local_verdict(verdict: str) -> str:
         "unsupported": "refuted",
         "uncertain": "unverifiable",
     }[verdict]
+
+
+def evaluation_mode(*, baseline: bool, search_backend: str, judge_backend: str) -> str:
+    if baseline:
+        return "no_evidence_local_control"
+    if search_backend != "null" or judge_backend != "local":
+        return "configured_provider_pipeline"
+    return "offline_verimind_pipeline"
 
 
 def wilson_interval(successes: int, trials: int, z: float = 1.959963984540054) -> list[float] | None:
@@ -346,14 +355,38 @@ def main() -> int:
         "timestamp_utc": timestamp,
         "split": args.split,
         "seed": SEED,
-        "model": "scikit-learn MLPClassifier (synthetic offline training data)",
-        "mode": "no_evidence_local_control" if args.baseline else "offline_verimind_pipeline",
+        "model": (
+            settings.nli_model_name
+            if settings.nli_backend == "transformer"
+            else "scikit-learn MLPClassifier (local model artifact)"
+        ),
+        "mode": evaluation_mode(
+            baseline=args.baseline,
+            search_backend=settings.search_backend,
+            judge_backend=settings.judge_backend,
+        ),
         "baseline_is_plain_llm": False,
-        "retriever": "local HybridRetriever; optional web search is not enabled by this evaluator",
+        "retriever": (
+            f"local HybridRetriever with {settings.search_backend} search"
+            if settings.search_backend != "null"
+            else "local HybridRetriever only"
+        ),
         "configuration": {
             "seed": SEED,
-            "nli_random_state": pipeline.nli_model.random_state,
-            "training_data": "verimind.data.build_synthetic_dataset",
+            "nli_backend": settings.nli_backend,
+            "nli_model_path": settings.nli_model_path,
+            "search_backend": settings.search_backend,
+            "judge_backend": settings.judge_backend,
+            "nli_random_state": getattr(pipeline.nli_model, "random_state", None),
+            "training_data": (
+                "MultiNLI-pretrained DeBERTa checkpoint"
+                if settings.nli_backend == "transformer"
+                else (
+                    "selected NLI_MODEL_PATH artifact; see its training run for provenance"
+                    if settings.nli_model_path
+                    else "verimind.data.build_synthetic_dataset"
+                )
+            ),
             "retrieval_evidence_limit_per_claim": 3,
             "retrieval_diagnostic_limit": max(RETRIEVAL_K_VALUES),
             "risk_flag_threshold": 60,

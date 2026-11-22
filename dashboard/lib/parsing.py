@@ -6,11 +6,25 @@ import json
 import math
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, BinaryIO
+
+import pandas as pd
 
 _METRIC = re.compile(r"^([\w:]+)(?:\{([^}]*)\})?\s+([-+eE.\d]+)$")
 _LABEL = re.compile(r'(\w+)="((?:\\.|[^"\\])*)"')
 _LABELS = ("supported", "refuted", "unverifiable")
+
+
+class ClaimColumnMissingError(ValueError):
+    """Raised when a batch CSV has no supported claim column."""
+
+
+def read_claims_csv(source: BinaryIO, limit: int) -> list[str]:
+    frame = pd.read_csv(source, nrows=limit + 1, dtype="string")
+    column = next((item for item in ("claim", "text") if item in frame.columns), None)
+    if column is None:
+        raise ClaimColumnMissingError("CSV needs a `claim` or `text` column.")
+    return [value.strip() for value in frame[column].dropna() if value.strip()]
 
 
 def _unescape_label(value: str) -> str:

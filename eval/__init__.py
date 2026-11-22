@@ -13,6 +13,7 @@ _LEGACY = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(_LEGACY)
 
 LABELS = _LEGACY.LABELS
+evaluation_mode = _LEGACY.evaluation_mode
 local_verdict = _LEGACY.local_verdict
 normalize_wiki_title = _LEGACY.normalize_wiki_title
 read_cases = _LEGACY.read_cases

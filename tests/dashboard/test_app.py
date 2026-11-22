@@ -28,7 +28,7 @@ class FakeClient:
             else ApiResult(error=ApiError("The API is unavailable.", "test-request"), request_id="test-request")
         )
 
-    def verify(self, _claim):
+    def verify(self, claim):
         if self.verify_error:
             return ApiResult(
                 error=ApiError("The API timed out. Please try again.", "verify-request"),
@@ -39,6 +39,7 @@ class FakeClient:
                 "document_summary": {"total_latency_ms": 12.0},
                 "claims": [
                     {
+                        "claim": claim,
                         "verdict": "supported",
                         "risk_score": 10,
                         "why": "The saved evidence supports the claim.",
@@ -90,11 +91,11 @@ def test_verify_flow_renders_real_shaped_response_and_history(monkeypatch):
     install_fake_clients(monkeypatch, FakeClient())
     app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "1_Verify_Claim.py")).run()
 
-    verify_button = next(button for button in app.button if button.label == "Verify")
+    verify_button = next(button for button in app.button if button.label == "Verify claim")
     assert not verify_button.disabled
     app.text_area[0].set_value("This is an evidence-backed claim.")
     app.run()
-    verify_button = next(button for button in app.button if button.label == "Verify")
+    verify_button = next(button for button in app.button if button.label == "Verify claim")
     assert not verify_button.disabled
     verify_button.click().run()
 
@@ -104,25 +105,53 @@ def test_verify_flow_renders_real_shaped_response_and_history(monkeypatch):
     assert any(element.value == "The saved evidence supports the claim." for element in app.markdown)
 
 
+def test_verify_page_does_not_preload_sample_claims(monkeypatch):
+    install_fake_clients(monkeypatch, FakeClient())
+    app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "1_Verify_Claim.py")).run()
+
+    assert not app.exception
+    assert not app.selectbox
+    assert any(element.label == "Text to verify" for element in app.text_area)
+
+
 def test_verify_failure_shows_friendly_error_and_request_id(monkeypatch):
     install_fake_clients(monkeypatch, FakeClient(verify_error=True))
     app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "1_Verify_Claim.py")).run()
 
     app.text_area[0].set_value("A factual claim.")
     app.run()
-    next(button for button in app.button if button.label == "Verify").click().run()
+    next(button for button in app.button if button.label == "Verify claim").click().run()
 
     assert not app.exception
     assert any("API timed out" in element.value for element in app.error)
     assert any("verify-request" in element.value for element in app.caption)
 
 
-def test_main_entrypoint_opens_verify_page(monkeypatch):
+def test_main_entrypoint_shows_home_and_privacy_guidance(monkeypatch):
     install_fake_clients(monkeypatch, FakeClient(available=False))
     app = AppTest.from_file(str(ROOT / "dashboard" / "app.py"), default_timeout=20).run()
 
     assert not app.exception
-    assert any(element.value == "Verify claim" for element in app.title)
+    assert any(element.value == "Welcome to VERIMIND" for element in app.title)
+    assert any("Choose a workspace" in element.value for element in app.subheader)
+    assert any("Do not submit secrets" in element.value for element in app.info)
+
+
+def test_missing_nli_score_is_not_inferred_from_risk_score(monkeypatch):
+    fake = FakeClient()
+    fake.verify = lambda _claim: ApiResult(
+        data={"claims": [{"verdict": "supported", "risk_score": 10, "why": "Test rationale."}]},
+        request_id="verify-request",
+    )
+    install_fake_clients(monkeypatch, fake)
+    app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "1_Verify_Claim.py")).run()
+
+    app.text_area[0].set_value("A factual claim.")
+    app.run()
+    next(button for button in app.button if button.label == "Verify claim").click().run()
+
+    assert not app.exception
+    assert any("Model score unavailable" in element.value for element in app.caption)
 
 
 def test_metrics_page_cache_does_not_leak_api_key_into_rendered_text(monkeypatch):

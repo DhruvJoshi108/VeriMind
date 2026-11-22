@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import time
+from pathlib import Path
 from typing import Any
 
 from verimind.claim_segmentation import split_claims
+from verimind.config import settings
 from verimind.data import build_synthetic_dataset
 from verimind.evidence_judge import GroqEvidenceJudge
 from verimind.features import cosine_similarity, token_overlap
 from verimind.nli_model import NLIModel
 from verimind.retrieval import HybridRetriever
 from verimind.risk_scoring import RiskScorer
+from verimind.transformer_nli import TransformerNLIModel
 
 
 class VerificationPipeline:
@@ -21,10 +24,26 @@ class VerificationPipeline:
         self.retriever = HybridRetriever()
         self.risk_scorer = RiskScorer()
         self.judge = GroqEvidenceJudge()
-        self.nli_model = self._train_default_model()
+        self.nli_model = self._load_nli_model()
 
-    def _train_default_model(self) -> NLIModel:
-        """Train the deterministic offline baseline used when no artifact is configured."""
+    def _load_nli_model(self) -> NLIModel | TransformerNLIModel:
+        """Load the selected NLI backend."""
+        if settings.nli_backend == "transformer":
+            return TransformerNLIModel(
+                model_name=settings.nli_model_name,
+                device=settings.nli_device,
+            ).load()
+
+        model_path = (
+            Path(settings.nli_model_path)
+            if settings.nli_model_path
+            else Path(__file__).resolve().parents[1] / "artifacts" / "nli_model.pkl"
+        )
+        if not model_path.is_absolute():
+            model_path = Path(__file__).resolve().parents[1] / model_path
+        if model_path.is_file():
+            return NLIModel().load(model_path)
+
         dataset = build_synthetic_dataset()
         return NLIModel().fit(dataset["pairs"], dataset["labels"])
 

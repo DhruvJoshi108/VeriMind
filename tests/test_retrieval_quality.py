@@ -8,6 +8,7 @@ from eval import retrieval_hit, summarize
 from verimind.faiss_retrieval import FaissEvidenceRetriever, has_lexical_match
 from verimind.fts_retrieval import SQLiteFtsEvidenceRetriever, build_full_text_index
 from verimind.retrieval import LocalEvidenceRetriever
+from verimind.web_search import WikipediaSearchBackend
 
 
 class _FixedScoresIndex:
@@ -242,3 +243,19 @@ def test_hybrid_retriever_includes_full_text_candidates():
         source["backend"] == "fulltext"
         for source in results[0]["retrieval_sources"]
     )
+
+
+def test_wikipedia_backend_searches_only_the_full_claim_variant():
+    from verimind.retrieval import HybridRetriever
+
+    retriever = HybridRetriever.__new__(HybridRetriever)
+    retriever.local = Mock()
+    retriever.local.search.return_value = []
+    retriever.indexed = None
+    retriever.full_text = None
+    retriever.backend = WikipediaSearchBackend()
+    retriever.backend.search = Mock(return_value=[])
+
+    retriever.search("Paris is the capital of France", k=1)
+
+    retriever.backend.search.assert_called_once_with("Paris is the capital of France", k=1)

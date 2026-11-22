@@ -5,11 +5,12 @@ from __future__ import annotations
 import time
 import uuid
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse, Response
+from fastapi.responses import FileResponse, PlainTextResponse, Response
 
 from api.deps import get_pipeline, require_api_key
 from api.schemas import VerifyRequest, VerifyResponse
@@ -23,6 +24,7 @@ def create_app() -> FastAPI:
     """Build an application without constructing models during import or test collection."""
     application = FastAPI(title="VERIMIND API", version="0.2.0")
     application.state.pipeline = None
+    ui_path = Path(__file__).with_name("static") / "index.html"
     if settings.cors_origins:
         application.add_middleware(
             CORSMiddleware,
@@ -45,6 +47,10 @@ def create_app() -> FastAPI:
             (time.perf_counter() - started) * 1000,
         )
         return response
+
+    @application.get("/", include_in_schema=False)
+    def home() -> FileResponse:
+        return FileResponse(ui_path, media_type="text/html")
 
     @application.get("/health")
     @application.get("/healthz")

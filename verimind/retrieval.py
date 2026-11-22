@@ -12,8 +12,8 @@ import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from verimind.fts_retrieval import SQLiteFtsEvidenceRetriever
 from verimind.faiss_retrieval import FaissEvidenceRetriever
+from verimind.fts_retrieval import SQLiteFtsEvidenceRetriever
 from verimind.knowledge_base import KnowledgeBase
 from verimind.web_search import get_search_backend
 
@@ -112,12 +112,14 @@ class HybridRetriever:
         """Return reciprocal-rank-fused evidence and attach audit diagnostics."""
         merged: dict[str, dict[str, Any]] = {}
         variants = self.build_queries(claim)
-        for query in variants:
+        for index, query in enumerate(variants):
             self._add_ranked(merged, self.local.search(query, k=k), "local")
             if self.indexed is not None:
                 self._add_ranked(merged, self.indexed.search(query, k=k), "faiss")
             if self.full_text is not None:
                 self._add_ranked(merged, self.full_text.search(query, k=k), "fulltext")
+            if index > 0 and not self.backend.supports_query_variants:
+                continue
             try:
                 web_items = [
                     {

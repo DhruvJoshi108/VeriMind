@@ -42,3 +42,12 @@ def test_app_factory_is_lazy_and_exposes_operational_endpoints(monkeypatch, tmp_
     assert metrics.status_code == 200
     assert "verimind_http_requests_total" in metrics.text
     assert 'verimind_verdicts_total{verdict="supported"} 1' in metrics.text
+
+
+def test_root_serves_the_claim_verification_ui():
+    response = TestClient(create_app()).get("/")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/html")
+    assert "Check a claim against evidence." in response.text
+    assert 'id="verify-form"' in response.text
