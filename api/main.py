@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import logging
+import fastapi
+
 import time
 import uuid
 from collections.abc import Callable
@@ -97,5 +100,17 @@ def create_app() -> FastAPI:
 
     return application
 
+import logging
+logger = logging.getLogger("uvicorn.error")
+
+@app.get("/readyz")
+async def readyz():
+    try:
+        # tumhare existing checks yahan
+        ...
+        return {"status": "ready"}
+    except Exception as e:
+        logger.exception("readyz failed: %s", e)
+        raise HTTPException(status_code=503, detail=str(e))
 
 app = create_app()

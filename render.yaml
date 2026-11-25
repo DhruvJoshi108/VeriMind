@@ -54,3 +54,4 @@ services:
           name: verimind-api
           envVarKey: RENDER_EXTERNAL_URL
       - fromGroup: verimind-api-auth
+healthCheckPath: /healthz
