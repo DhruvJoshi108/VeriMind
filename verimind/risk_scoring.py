@@ -35,7 +35,7 @@ class RiskScorer:
         support_score = entailment * 0.6 + retrieval_score * 0.4 + exact_support * 0.5
         support_score = max(0.0, min(1.0, support_score))
 
-        contradiction_score = contradiction * 0.7 + (1.0 - retrieval_score) * 0.3
+        contradiction_score = contradiction * 0.7
         uncertainty = neutral * 0.6 + (1.0 - retrieval_score) * 0.4
 
         risk_score = max(

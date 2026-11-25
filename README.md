@@ -39,7 +39,7 @@ If an existing environment has incompatible packages, create a fresh one (for ex
 copy .env.example .env
 ```
 
-Set `SEARCH_BACKEND=wikipedia` to enable keyless online search, or configure `SEARCH_BACKEND=tavily` and `SEARCH_API_KEY`. For hosted judging, configure `JUDGE_BACKEND=groq` and `GROQ_API_KEY`; otherwise keep the local judge. Set a long random `API_KEY` before deployment. Do not commit `.env` or put provider keys in a browser application.
+Set `SEARCH_BACKEND=tavily` to search the broader web. The app accepts either `SEARCH_API_KEY` or the existing `WEB_SEARCH_API_KEY`, and uses `WEB_SEARCH_API_URL` when provided. Keyless Wikipedia-only search is available with `SEARCH_BACKEND=wikipedia`. For hosted judging, configure `JUDGE_BACKEND=groq` and `GROQ_API_KEY`; otherwise keep the local judge. Set a long random `API_KEY` before deployment. Do not commit `.env` or put provider keys in a browser application.
 
 3. Run the API:
 
@@ -75,11 +75,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_dashboard.ps1
 
 Or start the API and dashboard separately using the commands in the first section and `streamlit run dashboard\app.py`. Enter the API key in the sidebar password field, or set `VERIMIND_API_KEY` in the environment before launching Streamlit. The dashboard keeps it in the current Streamlit session and sends it only with verification requests—not health, readiness, or metrics requests. The key is never displayed or logged by the dashboard. The default development API accepts requests without a key unless `API_KEY` is configured.
 
-Supported dashboard environment variables are `VERIMIND_API_URL`, `VERIMIND_API_KEY`, `VERIMIND_DASHBOARD_TIMEOUT_SECONDS`, `VERIMIND_DASHBOARD_BATCH_LIMIT`, and `VERIMIND_EVAL_RESULTS_DIR`. The single-claim input limit follows the API schema (20,000 characters); the batch limit defaults to `MAX_CLAIMS_PER_DOC` or 50. Evaluation defaults to `eval/results` and also loads the existing `results/*.jsonl` artifacts; set `VERIMIND_EVAL_RESULTS_DIR` to use another directory.
+Supported dashboard environment variables are `VERIMIND_API_URL`, `VERIMIND_API_KEY`, `VERIMIND_DASHBOARD_TIMEOUT_SECONDS`, `VERIMIND_DASHBOARD_BATCH_LIMIT`, and `VERIMIND_EVAL_RESULTS_DIR`. The single-claim input limit follows the API schema (20,000 characters); overlong batch rows are marked as errors without being sent, and changing the batch input clears stale results. The batch limit defaults to `MAX_CLAIMS_PER_DOC` or 50. Timeout and batch-limit settings must be positive finite values. Evaluation defaults to `eval/results` and also loads the existing `results/*.jsonl` artifacts; set `VERIMIND_EVAL_RESULTS_DIR` to use another directory.
 
-`docker compose -f deploy\docker-compose.yml up --build` starts the API and dashboard. The dashboard waits for API health, uses the internal API service URL, and mounts both evaluation-artifact directories read-only. The Compose file requires a local `.env` copied from `.env.example`.
+`docker compose -f deploy\docker-compose.yml up --build` starts the API and dashboard. The dashboard waits for database-backed API readiness, uses the internal API service URL, and mounts both evaluation-artifact directories read-only. The API image uses the minimal deployment dependencies and local NLI backend; it omits the large transformer and Wikipedia-index assets. The Compose file requires a local `.env` copied from `.env.example`.
 
-The dashboard reports live request latency percentiles and retrieval/judge timing when those API stages have run. The local judge is disabled by default, so judge latency can honestly show as unavailable. The repository has a local no-evidence NLI baseline, not a same-model LLM comparison; this distinction is shown on Evaluation. API rate limiting and metrics remain in-memory and per-process. Screenshots of the running pages were reviewed during validation; they are not checked into the repository.
+The dashboard reports live request latency percentiles and retrieval/judge timing when those API stages have run. The local judge is disabled by default, so judge latency can honestly show as unavailable. The repository has a local no-evidence NLI baseline, not a same-model LLM comparison; this distinction is shown on Evaluation. API rate limiting is in-memory by default and shared through Redis only when `REDIS_URL` is configured; metrics remain in-memory and per-process. Screenshots of the running pages were reviewed during validation; they are not checked into the repository.
 
 5. Run checks:
 
@@ -90,11 +90,12 @@ ruff check api verimind tests
 
 ## Deployment
 
-The supplied Docker configuration is under `deploy/`. Before publishing an API, set these hosting-provider secrets/environment variables:
+The supplied Docker configuration is under `deploy/`. Before publishing an API, set these hosting-provider secrets/environment variables. For horizontally scaled APIs, also set `REDIS_URL` to a shared Redis-compatible service:
 
 ```text
 ENVIRONMENT=production
 API_KEY=<long-random-secret>
+DATABASE_URL=<managed-postgresql-url>
 SEARCH_BACKEND=tavily
 SEARCH_API_KEY=<tavily-secret>
 JUDGE_BACKEND=groq
@@ -103,17 +104,19 @@ GROQ_MODEL=llama-3.3-70b-versatile
 CORS_ORIGINS=https://your-dashboard.example.com
 ```
 
-Build/run locally with `docker compose -f deploy/docker-compose.yml up --build`. Configure the dashboard service with `VERIMIND_API_URL`, `VERIMIND_API_KEY`, and the public API URL. The API rejects requests if `ENVIRONMENT=production` and `API_KEY` is absent. The built-in rate limiter is process-local; use your host's gateway/WAF or a shared rate-limit store for multi-instance production deployment.
+Build/run locally with `docker compose -f deploy/docker-compose.yml up --build`. Configure the dashboard service with `VERIMIND_API_URL`, `VERIMIND_API_KEY`, and the public API URL. The Compose file mounts a named Docker volume at `/app/data` so local SQLite reports persist across container recreation. The API rejects startup if `ENVIRONMENT=production` lacks either `API_KEY` or `DATABASE_URL`. Local development uses SQLite at `data/verimind.db` by default; `VERIMIND_DB_PATH` changes that path. Production should use a managed PostgreSQL URL or SQLite on a persistent mounted disk, never an ephemeral container filesystem. PostgreSQL URLs using `postgres://` or `postgresql://` are supported.
+
+The API's `/readyz` health check verifies database connectivity and initializes the report schema. `/metrics` requires the same API key as other protected API endpoints. For multiple API instances, configure `REDIS_URL` to use the shared atomic rate limiter; without Redis, the limiter is in-memory and only appropriate for a single instance. A host-level gateway/WAF can also enforce shared rate limits.
 
 ### Deploying on Render
 
-The repository includes a Render Blueprint in `render.yaml` for separate API and dashboard Python web services. It explicitly installs each service's requirements and starts the API with Uvicorn and the dashboard with Streamlit. Do not use `verimind` as a start command; the project does not define a console command with that name. Publish the contents of this `Code` directory as the GitHub repository root, then in Render choose **New → Blueprint** and connect that repository. Do not upload or commit `.env`; `.gitignore` excludes it. The Blueprint requests one `API_KEY` secret in a shared environment-variable group used by both services. If Render assigns different `onrender.com` hostnames because the names are already taken, update `VERIMIND_API_URL` on the dashboard and `CORS_ORIGINS` on the API to match the assigned service URLs.
+The repository includes a Render Blueprint in `render.yaml` for separate API and dashboard Python web services. It explicitly installs each service's requirements and starts the API with Uvicorn and the dashboard with Streamlit. Do not use `verimind` as a start command; the project does not define a console command with that name. Publish the contents of this `Code` directory as the GitHub repository root, then in Render choose **New → Blueprint** and connect that repository. Do not upload or commit `.env`; `.gitignore` excludes it. The Blueprint provisions a free Render PostgreSQL database, wires `DATABASE_URL` from it, generates `API_KEY` automatically, and sets `CORS_ORIGINS`/`VERIMIND_API_URL` from Render service URLs. You should not need to fill in manual URL secrets for the default Blueprint flow. `REDIS_URL` is left empty by default; set it to a shared Redis-compatible service when scaling beyond one API instance. If you rename the services, update the `fromService` references in `render.yaml` to match.
 
 The API service also serves a responsive claim-verification page at its root URL; `/docs` remains available for the API schema. When production authentication is enabled, enter the configured API key in the page before submitting a claim.
 
 For native Render builds, the root `.python-version` pins Python to `3.11.11`. This is required by the current `pyarrow<19` dependency range, which does not provide the needed wheel for Render's newer Python 3.14 default. If the service already has a `PYTHON_VERSION` environment variable, set it to `3.11.11` or remove it; that variable takes precedence over `.python-version`. The project metadata also rejects Python 3.14 so an unsupported source build fails early instead of trying to compile PyArrow.
 
-The Render API service intentionally uses minimal deployment dependencies and omits the large local embedding stack and index to fit a small demonstration service. It uses the small built-in fact base; live search and the hosted judge are disabled unless configured separately. The current SQLite report store is ephemeral on Render's free service plan, so saved reports can be lost when the service restarts or redeploys. This hosted setup is for demonstration, not production fact-checking or durable data storage.
+The Render API service intentionally uses minimal deployment dependencies and omits the large local embedding stack and index to fit a small demonstration service. It uses the small built-in fact base; live search and the hosted judge are disabled unless configured separately. The API can persist reports in PostgreSQL, but that does not make the verifier production-accurate: evaluation remains limited, so treat hosted verdicts as advisory until representative held-out evaluation meets your accuracy and safety requirements.
 
 ## Local demo
 
@@ -188,6 +191,8 @@ The exact result artifact is [`eval_20261120T073859Z.jsonl`](results/eval_202611
 A later FEVER-derived development run on 2026-11-22 using `artifacts/nli_model_fever.pkl` scored **8/30 (26.7%)**. It predicted **0/10 supported** and **0/10 refuted** claims correctly, predicted **27/30 (90%)** as unverifiable, and made **1/10 refuted-to-supported dangerous errors**. Gold-page retrieval was **8/20 (40%)** in the top three and **14/20 (70%) Recall@10**. The exact run is [`eval_20261122T083821Z.jsonl`](results/eval_20261122T083821Z.jsonl). This development result is a warning that model selection and threshold tuning are not resolved; do not use this configuration for production fact-checking.
 
 The public Wikipedia API was then enabled for a separate development run. Accuracy remained **8/30 (26.7%)**; online results appeared in only **3/30** retrieved evidence lists, and the API returned an HTTP 429 rate-limit response during the run. The API is an optional evidence source, not a path to guaranteed 80% accuracy. See [`eval_20261122T102902Z.jsonl`](results/eval_20261122T102902Z.jsonl) for that run.
+
+A Tavily broad-web development run on 2026-11-23 scored **9/30 (30%)** with the same FEVER-trained local classifier. Gold-page retrieval was **10/20 (50%)** in the top three and **14/20 (70%) Recall@10**; the classifier still predicted no supported or refuted claims correctly. Web results appeared in the diagnostic top ten for **12/30** cases. The exact run is [`eval_20261123T154824Z.jsonl`](results/eval_20261123T154824Z.jsonl). This is only a one-case improvement over the previous 26.7% dev result, not evidence that the system is near 80%.
 
 The `--baseline` option measures a **local no-evidence classifier control**, not a plain-LLM baseline. The fresh control run on 2026-11-20 scored **20/60 (33.33%)** and predicted every case as unverifiable. The exact control artifact is [`eval_20261120T074100Z.jsonl`](results/eval_20261120T074100Z.jsonl). This control is not a substitute for the requested same-model LLM comparison; no external LLM/search calls were made, so that comparison remains unavailable.
 

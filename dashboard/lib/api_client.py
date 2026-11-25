@@ -109,7 +109,7 @@ class ApiClient:
         return self._request("GET", "/readyz")
 
     def metrics(self) -> ApiResult:
-        return self._request("GET", "/metrics")
+        return self._request("GET", "/metrics", requires_api_key=True)
 
     def verify(self, text: str) -> ApiResult:
         return self._request("POST", "/verify", requires_api_key=True, json={"text": text})

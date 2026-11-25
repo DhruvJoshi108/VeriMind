@@ -11,13 +11,14 @@ from typing import Any
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, PlainTextResponse, Response
+from sqlalchemy.exc import SQLAlchemyError
 
 from api.deps import get_pipeline, require_api_key
 from api.schemas import VerifyRequest, VerifyResponse
 from verimind.config import settings
 from verimind.metrics import metrics
 from verimind.pipeline import VerificationPipeline
-from verimind.storage import get_report, save_report
+from verimind.storage import check_database, get_report, save_report
 
 
 def create_app() -> FastAPI:
@@ -54,15 +55,20 @@ def create_app() -> FastAPI:
 
     @application.get("/health")
     @application.get("/healthz")
-    def health() -> dict[str, str]:
+    def health(request: Request) -> dict[str, Any]:
         return {
             "status": "ok",
             "search_backend": settings.search_backend,
             "judge_backend": settings.judge_backend,
+            "pipeline_loaded": getattr(request.app.state, "pipeline", None) is not None,
         }
 
     @application.get("/readyz")
     def ready() -> dict[str, str]:
+        try:
+            check_database()
+        except SQLAlchemyError as exc:
+            raise HTTPException(status_code=503, detail="Database is unavailable") from exc
         return {"status": "ready"}
 
     @application.post("/verify", response_model=VerifyResponse)
@@ -86,7 +92,7 @@ def create_app() -> FastAPI:
         return report
 
     @application.get("/metrics", response_class=PlainTextResponse)
-    def metrics_endpoint() -> str:
+    def metrics_endpoint(_: str = Depends(require_api_key)) -> str:
         return metrics.render_prometheus()
 
     return application

@@ -1,8 +1,14 @@
+databases:
+  - name: verimind-db
+    plan: free
+    databaseName: verimind
+    user: verimind
+
 envVarGroups:
   - name: verimind-api-auth
     envVars:
       - key: API_KEY
-        sync: false
+        generateValue: true
 
 services:
   - type: web
@@ -12,7 +18,7 @@ services:
     region: singapore
     buildCommand: pip install -r requirements-api-deploy.txt
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /healthz
+    healthCheckPath: /readyz
     envVars:
       - key: ENVIRONMENT
         value: production
@@ -20,8 +26,17 @@ services:
         value: "null"
       - key: JUDGE_BACKEND
         value: local
+      - key: DATABASE_URL
+        fromDatabase:
+          name: verimind-db
+          property: connectionString
       - key: CORS_ORIGINS
-        value: https://verimind-dashboard.onrender.com
+        fromService:
+          type: web
+          name: verimind-dashboard
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: REDIS_URL
+        value: ""
       - fromGroup: verimind-api-auth
 
   - type: web
@@ -34,5 +49,8 @@ services:
     healthCheckPath: /_stcore/health
     envVars:
       - key: VERIMIND_API_URL
-        value: https://verimind-api.onrender.com
+        fromService:
+          type: web
+          name: verimind-api
+          envVarKey: RENDER_EXTERNAL_URL
       - fromGroup: verimind-api-auth

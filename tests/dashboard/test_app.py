@@ -14,6 +14,7 @@ class FakeClient:
     def __init__(self, *, available: bool = True, verify_error: bool = False):
         self.available = available
         self.verify_error = verify_error
+        self.verify_calls: list[str] = []
 
     def health(self):
         return self._availability("live")
@@ -29,6 +30,7 @@ class FakeClient:
         )
 
     def verify(self, claim):
+        self.verify_calls.append(claim)
         if self.verify_error:
             return ApiResult(
                 error=ApiError("The API timed out. Please try again.", "verify-request"),
@@ -162,3 +164,34 @@ def test_metrics_page_cache_does_not_leak_api_key_into_rendered_text(monkeypatch
 
     assert not app.exception
     assert all("secret" not in element.value for element in app.markdown)
+
+
+def test_batch_marks_oversized_claims_without_sending_them(monkeypatch):
+    fake = FakeClient()
+    install_fake_clients(monkeypatch, fake)
+    app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "2_Batch_Check.py")).run()
+
+    app.text_area[0].set_value(f"Valid claim.\n{'x' * 20_001}")
+    app.run()
+    next(button for button in app.button if button.label == "Run batch").click().run()
+
+    assert not app.exception
+    assert fake.verify_calls == ["Valid claim."]
+    assert any("exceed the 20,000-character API limit" in item.value for item in app.warning)
+
+
+def test_batch_results_are_cleared_when_input_changes(monkeypatch):
+    fake = FakeClient()
+    install_fake_clients(monkeypatch, fake)
+    app = AppTest.from_file(str(ROOT / "dashboard" / "pages" / "2_Batch_Check.py")).run()
+
+    app.text_area[0].set_value("First claim.")
+    app.run()
+    next(button for button in app.button if button.label == "Run batch").click().run()
+    assert app.session_state["batch_results"]
+
+    app.text_area[0].set_value("Different claim.")
+    app.run()
+
+    assert "batch_results" not in app.session_state
+    assert fake.verify_calls == ["First claim."]

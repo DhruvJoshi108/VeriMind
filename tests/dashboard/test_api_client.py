@@ -29,7 +29,7 @@ def test_verify_success_sends_request_id_and_key():
     assert headers["X-Request-ID"]
 
 
-def test_health_readiness_and_metrics_do_not_send_api_key():
+def test_health_and_readiness_do_not_send_api_key_but_metrics_does():
     client = ApiClient("http://api", "secret")
     client.session.request = Mock(
         side_effect=[
@@ -42,8 +42,9 @@ def test_health_readiness_and_metrics_do_not_send_api_key():
     assert client.health().ok
     assert client.ready().ok
     assert client.metrics().ok
-    for request in client.session.request.call_args_list:
-        assert "x-api-key" not in request.kwargs["headers"]
+    assert "x-api-key" not in client.session.request.call_args_list[0].kwargs["headers"]
+    assert "x-api-key" not in client.session.request.call_args_list[1].kwargs["headers"]
+    assert client.session.request.call_args_list[2].kwargs["headers"]["x-api-key"] == "secret"
 
 
 def test_timeout_is_a_friendly_error():

@@ -11,5 +11,7 @@
 
 - Evaluation artifacts presently include `results/*.jsonl` and `eval/results/*.json`; the default loader combines both locations and accepts JSONL plus JSON package formats. `VERIMIND_EVAL_RESULTS_DIR` selects another location.
 - The dashboard limit for a single request is the API schema limit: 20,000 characters. Batch execution defaults to 50 rows, matching `MAX_CLAIMS_PER_DOC`.
+- Batch rows exceeding the API character limit are reported without making a request, and results are cleared whenever the input changes.
+- The Compose API runs NLI on CPU because host CUDA is not available inside the container by default; the local PowerShell runner can use the host GPU.
 - API request percentiles are computed from recorded request latencies, and retrieval/judge latency and judge errors are exposed only when the corresponding stages actually run. Values unavailable from the active judge configuration remain explicitly unreported.
 - The existing no-evidence baseline is a local NLI control, not a same-model LLM comparison. The dashboard does not present it as an LLM result.

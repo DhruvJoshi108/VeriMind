@@ -18,6 +18,7 @@ data/index
 data/benchmarks
 data/eval_cases.jsonl
 data/verimind.db
-artifacts
+artifacts/*
+!artifacts/nli_model.pkl
 Environment
 Presentation

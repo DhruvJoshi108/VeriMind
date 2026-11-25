@@ -114,6 +114,32 @@ def test_risk_scorer_outputs_valid_report():
     assert result["verdict"] in {"supported", "uncertain", "unsupported"}
 
 
+def test_weak_retrieval_does_not_turn_moderate_contradiction_into_refutation():
+    result = RiskScorer().score_claim(
+        claim="The claim is true.",
+        evidence=[{"text": "Weakly related passage.", "score": 0.0}],
+        nli_probs={"entailment": 0.05, "contradiction": 0.6, "neutral": 0.35},
+    )
+
+    assert result["verdict"] == "uncertain"
+
+
+def test_strong_contradiction_with_relevant_evidence_remains_unsupported():
+    result = RiskScorer().score_claim(
+        claim="Paris is the capital of Germany.",
+        evidence=[
+            {
+                "text": "Paris is the capital of France.",
+                "score": 0.9,
+                "source": "https://example.com",
+            }
+        ],
+        nli_probs={"entailment": 0.02, "contradiction": 0.95, "neutral": 0.03},
+    )
+
+    assert result["verdict"] == "unsupported"
+
+
 def test_pipeline_report_has_claims_and_evidence():
     pipeline = VerificationPipeline()
     report = pipeline.verify_text("Paris is the capital of France. The Eiffel Tower is in Paris.")
@@ -153,7 +179,9 @@ def test_diagnostic_retrieval_does_not_change_scoring_evidence():
 def test_api_health_and_verification():
     client = TestClient(app)
     health = client.get("/health")
+    readiness = client.get("/readyz")
     assert health.status_code == 200
+    assert readiness.status_code == 200
     payload = {"text": "Paris is the capital of France."}
     response = client.post("/verify", json=payload)
     assert response.status_code == 200
@@ -183,6 +211,27 @@ def test_pipeline_maps_probabilities_by_label_for_contradictions():
         [{"text": "Paris is the capital of Germany."}],
     )
     assert scores["contradiction"] > scores["entailment"]
+
+
+def test_pipeline_weights_nli_by_relevance_without_mixing_passage_labels():
+    pipeline = VerificationPipeline.__new__(VerificationPipeline)
+    pipeline.nli_model = Mock(classes_=["entailment", "neutral", "contradiction"])
+    pipeline.nli_model.predict_proba.return_value = [
+        [0.001, 0.009, 0.990],
+        [0.990, 0.009, 0.001],
+    ]
+
+    scores = pipeline._classify_claim(
+        "CeeLo Green has a song called Fuck You!.",
+        [
+            {"text": "CeeLo Green's The Good Life is an album by the singer."},
+            {"text": "CeeLo Green released the song Fuck You, which became a hit."},
+        ],
+    )
+
+    assert scores["entailment"] > scores["contradiction"]
+    assert scores["contradiction"] < 0.3
+    assert sum(scores.values()) == pytest.approx(1.0)
 
 
 def test_web_search_failure_is_logged_and_local_evidence_is_retained(caplog):
@@ -280,13 +329,60 @@ def test_tavily_search_uses_general_web_results_and_api_relevance(monkeypatch):
 def test_tavily_requires_a_key_when_selected(monkeypatch):
     monkeypatch.setenv("SEARCH_BACKEND", "tavily")
     monkeypatch.setenv("SEARCH_API_KEY", "")
+    monkeypatch.delenv("WEB_SEARCH_API_KEY", raising=False)
 
-    with pytest.raises(ValueError, match="SEARCH_API_KEY is required"):
+    with pytest.raises(ValueError, match="SEARCH_API_KEY or WEB_SEARCH_API_KEY is required"):
         Settings.from_env()
 
 
 def test_tavily_backend_does_not_silently_skip_missing_key(monkeypatch):
     monkeypatch.delenv("SEARCH_API_KEY", raising=False)
+    monkeypatch.delenv("WEB_SEARCH_API_KEY", raising=False)
 
-    with pytest.raises(RuntimeError, match="SEARCH_API_KEY is required"):
+    with pytest.raises(RuntimeError, match="SEARCH_API_KEY or WEB_SEARCH_API_KEY is required"):
         TavilySearchBackend().search("sample claim")
+
+
+def test_tavily_uses_legacy_web_search_key_and_endpoint(monkeypatch):
+    monkeypatch.delenv("SEARCH_API_KEY", raising=False)
+    monkeypatch.setenv("WEB_SEARCH_API_KEY", "legacy-key")
+    monkeypatch.setenv("WEB_SEARCH_API_URL", "https://api.tavily.com/search")
+
+    settings = Settings.from_env()
+    backend = TavilySearchBackend(
+        api_key=settings.search_api_key,
+        endpoint=settings.web_search_api_url,
+    )
+
+    assert backend.api_key == "legacy-key"
+    assert backend.endpoint == "https://api.tavily.com/search"
+
+
+def test_production_requires_persistent_database_url(monkeypatch):
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.setenv("API_KEY", "test-secret")
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+
+    with pytest.raises(ValueError, match="DATABASE_URL is required"):
+        Settings.from_env()
+
+
+def test_production_accepts_configured_database_url(monkeypatch):
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.setenv("API_KEY", "test-secret")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://user:pass@localhost/verimind")
+
+    settings = Settings.from_env()
+
+    assert settings.database_url == "postgresql://user:pass@localhost/verimind"
+
+
+def test_api_readiness_reports_database_failure_as_unavailable(monkeypatch):
+    from sqlalchemy.exc import SQLAlchemyError
+
+    monkeypatch.setattr("api.main.check_database", Mock(side_effect=SQLAlchemyError("offline")))
+
+    response = TestClient(app).get("/readyz")
+
+    assert response.status_code == 503
+    assert response.json() == {"detail": "Database is unavailable"}

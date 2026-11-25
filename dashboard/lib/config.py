@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -16,6 +17,26 @@ class DashboardConfig:
     max_characters: int
     batch_limit: int
     eval_results_dir: Path
+
+
+def _positive_float(name: str, raw_value: str) -> float:
+    try:
+        value = float(raw_value)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be a positive finite number") from exc
+    if not math.isfinite(value) or value <= 0:
+        raise ValueError(f"{name} must be a positive finite number")
+    return value
+
+
+def _positive_int(name: str, raw_value: str) -> int:
+    try:
+        value = int(raw_value)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be a positive integer") from exc
+    if value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+    return value
 
 
 def display_api_origin(url: str) -> str:
@@ -37,13 +58,19 @@ def display_api_origin(url: str) -> str:
 
 def load_config() -> DashboardConfig:
     root = Path(__file__).resolve().parents[2]
+    batch_limit_name = "VERIMIND_DASHBOARD_BATCH_LIMIT"
+    batch_limit_value = os.getenv(batch_limit_name)
+    if batch_limit_value is None:
+        batch_limit_name = "MAX_CLAIMS_PER_DOC"
+        batch_limit_value = os.getenv(batch_limit_name, "50")
     return DashboardConfig(
         api_url=os.getenv("VERIMIND_API_URL", "http://localhost:8000").rstrip("/"),
         api_key=os.getenv("VERIMIND_API_KEY", os.getenv("API_KEY", "")),
-        timeout_seconds=float(os.getenv("VERIMIND_DASHBOARD_TIMEOUT_SECONDS", "90")),
-        max_characters=20_000,
-        batch_limit=int(
-            os.getenv("VERIMIND_DASHBOARD_BATCH_LIMIT", os.getenv("MAX_CLAIMS_PER_DOC", "50"))
+        timeout_seconds=_positive_float(
+            "VERIMIND_DASHBOARD_TIMEOUT_SECONDS",
+            os.getenv("VERIMIND_DASHBOARD_TIMEOUT_SECONDS", "90"),
         ),
+        max_characters=20_000,
+        batch_limit=_positive_int(batch_limit_name, batch_limit_value),
         eval_results_dir=Path(os.getenv("VERIMIND_EVAL_RESULTS_DIR", root / "eval" / "results")),
     )

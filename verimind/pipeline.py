@@ -51,34 +51,31 @@ class VerificationPipeline:
         if not evidence:
             return {"entailment": 0.15, "contradiction": 0.20, "neutral": 0.65}
 
-        relevant_evidence = [
-            item
-            for item in evidence
-            if max(
-                token_overlap(claim, str(item.get("text", ""))),
-                cosine_similarity(claim, str(item.get("text", ""))),
-            )
-            >= 0.12
-        ]
+        relevant_evidence = []
+        for item in evidence:
+            text = str(item.get("text", ""))
+            relevance = max(token_overlap(claim, text), cosine_similarity(claim, text))
+            if relevance >= 0.12:
+                relevant_evidence.append((item, relevance))
         if not relevant_evidence:
             return {"entailment": 0.10, "contradiction": 0.10, "neutral": 0.80}
 
-        pairs = [(claim, str(item["text"])) for item in relevant_evidence]
+        pairs = [(claim, str(item["text"])) for item, _ in relevant_evidence]
         probabilities = self.nli_model.predict_proba(pairs)
         rows = [
             {label: float(value) for label, value in zip(self.nli_model.classes_, row, strict=True)}
             for row in probabilities
         ]
-        # Evidence is disjunctive: a single strong source should not be diluted by
-        # weakly related retrieved passages.
-        entailment = max(row.get("entailment", 0.0) for row in rows)
-        contradiction = max(row.get("contradiction", 0.0) for row in rows)
-        neutral = max(0.0, 1.0 - max(entailment, contradiction))
-        total = entailment + contradiction + neutral
+        # Keep each NLI distribution intact; taking per-label maxima can combine
+        # support from one passage with contradiction from another.
+        total_relevance = sum(relevance for _, relevance in relevant_evidence)
         return {
-            "entailment": entailment / total,
-            "contradiction": contradiction / total,
-            "neutral": neutral / total,
+            label: sum(
+                relevance * row.get(label, 0.0)
+                for (_, relevance), row in zip(relevant_evidence, rows, strict=True)
+            )
+            / total_relevance
+            for label in ("entailment", "contradiction", "neutral")
         }
 
     def verify_text(

@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   api:
     build:
@@ -7,6 +5,10 @@ services:
       dockerfile: deploy/Dockerfile.api
     env_file:
       - ../.env
+    environment:
+      NLI_DEVICE: cpu
+    volumes:
+      - verimind-data:/app/data
     ports:
       - "8000:8000"
     restart: unless-stopped
@@ -34,3 +36,6 @@ services:
     ports:
       - "8501:8501"
     restart: unless-stopped
+
+volumes:
+  verimind-data:

@@ -96,8 +96,8 @@ class TransformerNLIModel:
         for start in range(0, len(pairs), self.batch_size):
             batch = pairs[start : start + self.batch_size]
             encoded = self._tokenizer(
-                [claim for claim, _ in batch],
                 [evidence for _, evidence in batch],
+                [claim for claim, _ in batch],
                 padding=True,
                 truncation=True,
                 max_length=self.max_length,

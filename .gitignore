@@ -16,6 +16,7 @@ data/corpus/fever_train.jsonl
 data/corpus/fever_nli_train.jsonl*
 data/index/wiki_fts.sqlite3*
 artifacts/nli_model_fever.pkl
+artifacts/deberta_fever_finetuned/
 
 .env
 .env.*

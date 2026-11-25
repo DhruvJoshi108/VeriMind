@@ -47,17 +47,29 @@ class NullSearchBackend(SearchBackend):
 class TavilySearchBackend(SearchBackend):
     """Minimal real backend using the Tavily API if available."""
 
-    def __init__(self, api_key: str | None = None, timeout: float = 10.0) -> None:
-        self.api_key = api_key or os.getenv("SEARCH_API_KEY")
+    supports_query_variants = False
+
+    def __init__(
+        self,
+        api_key: str | None = None,
+        timeout: float = 10.0,
+        endpoint: str = "https://api.tavily.com/search",
+    ) -> None:
+        self.api_key = (
+            api_key or os.getenv("SEARCH_API_KEY") or os.getenv("WEB_SEARCH_API_KEY")
+        )
         self.timeout = timeout
+        self.endpoint = endpoint
 
     def search(self, query: str, k: int = 5) -> list[SearchResult]:
         if not self.api_key:
-            raise RuntimeError("SEARCH_API_KEY is required for Tavily web search.")
+            raise RuntimeError(
+                "SEARCH_API_KEY or WEB_SEARCH_API_KEY is required for Tavily web search."
+            )
         if not query.strip() or k <= 0:
             return []
         response = requests.post(
-            "https://api.tavily.com/search",
+            self.endpoint,
             json={
                 "query": query.strip(),
                 "max_results": min(k, 20),
@@ -173,7 +185,10 @@ def get_search_backend() -> SearchBackend:
     """Return configured backend, defaulting to the null backend."""
     mode = settings.search_backend
     if mode == "tavily":
-        return TavilySearchBackend(api_key=settings.search_api_key)
+        return TavilySearchBackend(
+            api_key=settings.search_api_key,
+            endpoint=settings.web_search_api_url,
+        )
     if mode == "wikipedia":
         return WikipediaSearchBackend()
     return NullSearchBackend()

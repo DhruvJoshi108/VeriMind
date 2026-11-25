@@ -6,6 +6,7 @@ RUN pip install --no-cache-dir -r requirements-api-deploy.txt \
     && useradd --create-home --uid 10001 verimind
 COPY api ./api
 COPY verimind ./verimind
+COPY artifacts/nli_model.pkl ./artifacts/nli_model.pkl
 RUN mkdir -p /app/data && chown -R verimind:verimind /app
 USER verimind
 ENV PYTHONPATH=/app

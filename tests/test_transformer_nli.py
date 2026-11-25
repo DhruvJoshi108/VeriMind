@@ -1,5 +1,9 @@
+from contextlib import nullcontext
 from dataclasses import replace
+from types import SimpleNamespace
+from unittest.mock import Mock
 
+import numpy as np
 import pytest
 
 from verimind import pipeline as pipeline_module
@@ -20,6 +24,26 @@ def test_transformer_nli_rejects_non_nli_label_sets():
         TransformerNLIModel._ordered_labels(
             {"0": "positive", "1": "neutral", "2": "negative"}
         )
+
+
+def test_transformer_uses_evidence_as_premise_and_claim_as_hypothesis():
+    tokenizer = Mock(return_value={"input_ids": Mock()})
+    probabilities = Mock()
+    probabilities.cpu.return_value.numpy.return_value = np.array([[0.7, 0.2, 0.1]])
+    torch = Mock()
+    torch.inference_mode.return_value = nullcontext()
+    torch.softmax.return_value = probabilities
+    transformer = TransformerNLIModel()
+    transformer._torch = torch
+    transformer._tokenizer = tokenizer
+    transformer._model = Mock(return_value=SimpleNamespace(logits=object()))
+
+    transformer.predict_proba([("claim hypothesis", "evidence premise")])
+
+    args, kwargs = tokenizer.call_args
+    assert args[:2] == (["evidence premise"], ["claim hypothesis"])
+    assert kwargs["padding"] is True
+    assert kwargs["truncation"] is True
 
 
 def test_settings_accepts_transformer_nli_backend(monkeypatch):
